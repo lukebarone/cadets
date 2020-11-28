@@ -1,6 +1,7 @@
 name: Python Lint Checker
+on: push
 jobs:
-  deploy:
+  lint:
     runs-on: ubuntu-latest
     steps:
     - name: GitHub Action for pylint
