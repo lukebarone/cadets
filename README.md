@@ -1,5 +1,7 @@
 ### Cadets Repo
 
+![Python Lint Checker](https://github.com/lukebarone/cadets/workflows/Python%20Lint%20Checker/badge.svg?branch=master)
+
 This is my personal repo for scripts I need for Cadets.
 
 ## Contents
