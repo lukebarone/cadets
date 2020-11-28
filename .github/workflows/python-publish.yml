@@ -1,0 +1,8 @@
+name: Python Lint Checker
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: GitHub Action for pylint
+      uses: cclauss/GitHub-Action-for-pylint@0.7.0
+      args: "pip install -r requirements.txt ; pylint **/*.py"
