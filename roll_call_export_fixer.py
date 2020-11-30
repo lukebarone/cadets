@@ -50,16 +50,19 @@ def main(argv):
                 password = '!G00gle' + row[0][0].upper() + row[1][0].upper()
                 if row[5] == "/NLCC 142 Aurora":
                     orgunit = "/BCMD/NLCC Aurora"
-                if row[10] == "+1":
+                if row[5] == "/NLCC Captain Rankin":
+                    orgunit = "/BCMD/NLCC Captain Rankin"
+                if row[10] == "+1" or row[10] == "1":
                     if row[11] != "--":
                         row[10] = "+1" + row[11]
                     else:
                         use_blank_phone = True
+                        print(f"Line {line_number} - Using blank telephone number")
                 if use_blank_phone:
                     phonenumber = ""
                 else:
                     phonenumber = phonenumbers.format_number(
-                        phonenumbers.parse(row[10]),
+                        phonenumbers.parse(row[10], 'US'),
                         phonenumbers.PhoneNumberFormat.E164)
                 wtr.writerow((
                     row[0], row[1], email, password, row[4], orgunit, row[6],
