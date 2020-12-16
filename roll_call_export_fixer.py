@@ -12,6 +12,7 @@ import os
 import sys
 
 import phonenumbers
+from phonenumbers import NumberParseException
 from email_validator import EmailNotValidError, validate_email
 
 
@@ -61,9 +62,13 @@ def main(argv):
                 if use_blank_phone:
                     phonenumber = ""
                 else:
-                    phonenumber = phonenumbers.format_number(
-                        phonenumbers.parse(row[10], 'US'),
-                        phonenumbers.PhoneNumberFormat.E164)
+                    try:
+                        phonenumber = phonenumbers.format_number(
+                            phonenumbers.parse(row[10], 'US'),
+                            phonenumbers.PhoneNumberFormat.E164)
+                    except NumberParseException:
+                        phonenumber = ""
+                        print(f"Line {line_number} - Using blank telephone number (exception)")
                 wtr.writerow((
                     row[0], row[1], email, password, row[4], orgunit, row[6],
                     row[7], row[8], row[9], phonenumber, row[11], row[12],
