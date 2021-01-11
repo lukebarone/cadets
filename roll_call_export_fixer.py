@@ -55,6 +55,8 @@ def main(argv):
                     orgunit = "/BCMD/NLCC Captain Rankin"
                 if row[5] == "/NLCC 78 MJ Miller":
                     orgunit = "/BCMD/NLCC MJ Miller"
+                if row[5] == "/NLCC 125 Columbia":
+                    orgunit = "/BCMD/NLCC Columbia"
                 if row[10] == "+1" or row[10] == "1":
                     if row[11] != "--":
                         row[10] = "+1" + row[11]
