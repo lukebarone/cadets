@@ -37,8 +37,8 @@ def main(argv):
                         row[19], row[20], row[22], row[23], row[24], row[25]))
                     continue
                 # All but column 21 (V - Cost Centre)
-                email = row[0].split(' ', 1)[0] + \
-                    row[1].split(' ', 1)[0] + \
+                email = row[0].split(' ', 1)[0].replace('.', '') + \
+                    row[1].split(' ', 1)[0].replace('.', '') + \
                     '@navyleagueofcanada.org'
                 try:
                     _ = validate_email(email)
