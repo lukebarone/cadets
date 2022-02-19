@@ -1,0 +1,169 @@
+<html>
+    <head>
+        <title>BC(9) Online Form</title>
+        <script>
+            function add_more_branch() {
+                var table = document.getElementById("Branch Members");
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0)
+                var cell2 = row.insertCell(1)
+                var cell3 = row.insertCell(2)
+                var cell4 = row.insertCell(3)
+                var cell5 = row.insertCell(4)
+                var cell6 = row.insertCell(5)
+                cell1.innerHTML = '<input type="text" name="branch_extra_name" />';
+                cell2.innerHTML = '<input type="text" name="branch_extra_position" />';
+                cell3.innerHTML = '<input type="text" name="branch_extra_email" />';
+                cell4.innerHTML = '<input type="text" name="branch_extra_phone" />';
+                cell5.innerHTML = '<input type="text" name="branch_extra_mailing" />';
+                cell6.innerHTML = '<button type="button" value="Remove Branch member" onclick="remove_branch(this)">Remove</button>'
+            }
+            function remove_branch(btn) {
+                var row = btn.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+            function show_nlcc_info() {
+                document.getElementById("nlcc_form").classList.remove("hide");
+            }
+            function hide_nlcc_info() {
+                document.getElementById("nlcc_form").classList.add("hide");
+            }
+        </script>
+        <style>
+            .hide {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>BC(9) Online Form</h1>
+        <em>To be completed yearly, and when personnel change in the NLCC Corps or the Branch</em>
+        <hr />
+        <p>The BC(9) Form is used to inform BCMD of any changes to the Branch or Navy League Cadet Corps (in terms of officers/instructors). Any time there is a change in Branch or NLCC instructors, this form must be completed.</p>
+        <p>Your @bcmainland.ca address will be assumed for the Branch President and the NLCC CO email.</p>
+        <h2>Branch Information</h2>
+        <form method="POST">
+            <table>
+                <tr>
+                    <td><strong>What is your Branch Name?</strong><br />Please enter your <em>LEGAL NAME</em> for your Branch.</td>
+                    <td><input type="text" name="branch_name" /></td>
+                </tr>
+                <tr>
+                    <td><strong>Branch Mailing Address</strong><br />Please include the City and Postal Code</td>
+                    <td><input type="text" name="branch_mailing_address" /></td>
+                </tr>
+                <tr>
+                    <td><strong>Branch General Meetings Location</strong></td>
+                    <td><input type="text" name="branch_general_meetings_location" /></td>
+                </tr>
+                <tr>
+                    <td><strong>Branch General Meetings day of the week</strong><br />Check all that apply</td>
+                    <td><input type="checkbox" name="bgm_dow" id="bgm_dow_m" /><label for="bgm_dow_m">Monday</label><br />
+                        <input type="checkbox" name="bgm_dow" id="bgm_dow_tues" /><label for="bgm_dow_tues">Tuesday</label><br />
+                        <input type="checkbox" name="bgm_dow" id="bgm_dow_w" /><label for="bgm_dow_w">Wednesday</label><br />
+                        <input type="checkbox" name="bgm_dow" id="bgm_dow_thurs" /><label for="bgm_dow_thurs">Thursday</label><br />
+                        <input type="checkbox" name="bgm_dow" id="bgm_dow_f" /><label for="bgm_dow_f">Friday</label><br />
+                        <input type="checkbox" name="bgm_dow" id="bgm_dow_sat" /><label for="bgm_dow_sat">Saturday</label><br />
+                        <input type="checkbox" name="bgm_dow" id="bgm_dow_sun" /><label for="bgm_dow_sun">Sunday</label><br /></td>
+                </tr>
+                <tr>
+                    <td><strong>Branch General Meetings times</strong></td>
+                    <td align="right">Start: <input type="time" name="bgm_start_time" /><br />
+                    Expected End: <input type="time" name="bgm_end_time" /></td>
+                </tr>
+            </table>
+            <hr />
+            <h3>Branch Personnel</h3>
+            <table id="Branch Members">
+                <tr><td colspan="5">Please enter all of your Branch Personnel. Please use the <em>@bcmainland.ca</em> emails where applicable.</td></tr>
+                <tr>
+                    <th>First and Last Name</th>
+                    <th>Position</th>
+                    <th>Email Address</th>
+                    <th>Phone Number</th>
+                    <th>Mailing Address</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="pres_name" /></td>
+                    <td><strong>President</strong></td>
+                    <td><input type="email" name="pres_email" /></td>
+                    <td><input type="tel" name="pres_tel" /></td>
+                    <td><input type="text" name="pres_address" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="vp1_name" /></td>
+                    <td><strong>1st Vice President</strong></td>
+                    <td><input type="email" name="vp1_email" /></td>
+                    <td><input type="tel" name="vp1_tel" /></td>
+                    <td><input type="text" name="vp1_address" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="vp2_name" /></td>
+                    <td><strong>2nd Vice President</strong></td>
+                    <td><input type="email" name="vp2_email" /></td>
+                    <td><input type="tel" name="vp2_tel" /></td>
+                    <td><input type="text" name="vp2_address" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="treasurer_name" /></td>
+                    <td><strong>Treasurer</strong></td>
+                    <td><input type="email" name="treasurer_email" /></td>
+                    <td><input type="tel" name="treasurer_tel" /></td>
+                    <td><input type="text" name="treasurer_address" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="secretary_name" /></td>
+                    <td><strong>Secretary</strong></td>
+                    <td><input type="email" name="secretary_email" /></td>
+                    <td><input type="tel" name="secretary_tel" /></td>
+                    <td><input type="text" name="secretary_address" /></td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="vsc_name" /></td>
+                    <td><strong>Volunteer Screening Coordinator</strong></td>
+                    <td><input type="email" name="vsc_email" /></td>
+                    <td><input type="tel" name="vsc_tel" /></td>
+                    <td><input type="text" name="vsc_address" /></td>
+                </tr>
+            </table>
+            <button type="button" id="add_more" value="Add more Branch members" onclick="add_more_branch()">Add more Branch Members</button>
+            <h3>Compliance Information and Governance</h3>
+            <table>
+                <tr>
+                    <td><strong>Date of your last AGM:</strong></td>
+                    <td><input type="date" name="last_agm_date" /></td>
+                </tr>
+                <tr>
+                    <td><strong>When is your Branch Financial Year-End?</strong><br /><em>Did you know?</em> The AGM must be held within 3 months of your Financial Year End</td>
+                    <td><input type="date" name="financial_year_end" /></td>
+                </tr>
+                <tr>
+                    <td><strong>Have your forwarded your most recent financial year end documents to the BC Mainland Treasurer?</strong><br />Email them to <a href="mailto:treasurer@bcmainland.ca?subject='Year End Financials'&body='I have attached our Balance Sheet, Income Statement, Budgets for the upcoming year, Accounts Receivable and Bank Reconciliation'">treasurer@bcmainland.ca</a></td>
+                    <td><input type="radio" name="submitted_financials" id="financials_no" checked="true" /><label for="financials_no">No</label> | <input type="radio" name="submitted_financials" id="financials_yes" /><label for="financials_yes">Yes</label></td>
+                </tr>
+            </table>
+            <h2>Navy League Corps Information</h2>
+            <p><strong>Does your branch support a Navy League Corps?</strong></p>
+            <p><input type="radio" name="nlcc_corps" id="nlcc_corps_no" onclick="hide_nlcc_info();" checked="true" /><label for="nlcc_corps_no">No</label> | <input type="radio" name="nlcc_corps" id="nlcc_corps_yes" onclick="show_nlcc_info();"/><label for="nlcc_corps_yes">Yes</label></p>
+            <div id="nlcc_form" class="hide">
+                <h3>Please work with your NLCC Commanding Officer to complete the information below:</h3>
+                <table>
+                    <tr>
+                        <td><strong>Corps Name and Number:</strong></td>
+                        <td><input type="text" name="nlcc_corps_and_number" placeholder="123 NLCC Awesomeness" /></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Are all your officers and instructors entered into <a href="https://bc.rollcall.navyleagueofcanada.org/pulse/" target="_blank">Roll Call</a>?</strong><br /><em>Did you know?</em> All Navy League Cadet personnel needs to be entered into Roll Call.</td>
+                        <td><input type="radio" name="nlcc_in_rollcall" id="rollcall_no" checked="true" /><label for="rollcall_no">No</label> | <input type="radio" name="nlcc_in_rollcall" id="rollcall_yes" /><label for="rollcall_yes">Yes</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <hr />
+            <p>All information entered into this form is protected by the Navy League of Canada Privacy Policy. Information is used for administrative purposes only. This form is required to be completed at the start of every training year, and after each AGM.</p>
+            <p>Please double-check that all the information provided is correct and complete.</p>
+            <p><input type="checkbox" id="verified" /><label for="verified">I verify the information above is accurate and complete to the best of my abilities</label></p>
+            <p><input type="submit" value="Submit to BCMD" /> | <input type="reset" value="Reset form" /></p>
+        </form>
+    </body>
+</html>
