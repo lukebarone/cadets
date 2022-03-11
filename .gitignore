@@ -1,2 +1,4 @@
 *.csv
 .vscode/
+bc9_online/bc9_outputs/*.json
+__pycache__/

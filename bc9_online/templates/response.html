@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>BC(9) Form Response</title>
+    </head>
+    <body>
+        <h1>Submitted at {{ form.submitted_date }}</h1>
+        <small>Report ID: {{ form.uuid }}</small>
+        <h2>General Branch Information</h2>
+        <p>Branch Name and Mailing Address:</p>
+        <p>{{ form.branch_name }}<br />
+            {{ form.branch_mailing_address }}</p>
+        <p>General Meeting location:<br />
+            {{ form.branch_general_meetings_location }}</p>
+        <p>General Meeting Time: {{ form.bgm_start_time }} to {{ form.bgm_end_time }}</p>
+        <h2>Membership</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Position</th>
+                <th>Phone Number</th>
+                <th>Mailing Address</th>
+            </tr>
+        {% for person in people %}
+            <tr>
+                <td>{{ person['name'] }}</td>
+                <td>{{ person['email'] }}</td>
+                <td>{{ person['position'] }}</td>
+                <td>{{ person['telephone'] }}</td>
+                <td>{{ person['address'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+        <h2>Compliance Data</h2>
+        <p>Last AGM Date: {{ form.last_agm_date }}</p>
+        <p>Financial Year End Date: {{ form.financial_year_end }}</p>
+        <p>Have you submitted your financials? {{ form.submitted_financials }}</p>
+        <p>Do you have an NLCC Corps? {{ form.nlcc_corps }}</p>
+        {% if form.nlcc_corps == "yes" %}
+        <h3>NLCC Corp Info:</h3>
+        <p>Name and Number: {{ form.nlcc_corps_and_number }}</p>
+        <p>Commanding Officer's rank and name: {{ form.nlcc_co }}</p>
+        <p>Info in Roll Call: {{ form.nlcc_in_rollcall }}</p>
+        <h4>Inspection Dates</h4>
+        <p>Do you want to fill out the Inspection Date Request Form now? (Eventually link to the BC(51) form)</p>
+        {% endif %}
+
+        <p>Do you have an RCSCC Corps? {{ form.rcscc_corps }}</p>
+        {% if form.rcscc_corps == "yes" %}
+        <h3>RCSCC Corp Info:</h3>
+        <p>Name and Number: {{ form.rcscc_corps_and_number }}</p>
+        <p>Commanding Officer's rank and name: {{ form.rcscc_co }}</p>
+        <h4>Inspection Dates</h4>
+        <p>Do you want to fill out the Inspection Date Request Form now? (Eventually link to the BC(51) form)</p>
+        {% endif %}
+        <h2>Additional Comments:</h2>
+        {{ form.additional_comments }}
+    </body>
+  </html>

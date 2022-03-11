@@ -1,169 +1,563 @@
 <html>
-    <head>
-        <title>BC(9) Online Form</title>
-        <script>
-            function add_more_branch() {
-                var table = document.getElementById("Branch Members");
-                var row = table.insertRow(-1);
-                var cell1 = row.insertCell(0)
-                var cell2 = row.insertCell(1)
-                var cell3 = row.insertCell(2)
-                var cell4 = row.insertCell(3)
-                var cell5 = row.insertCell(4)
-                var cell6 = row.insertCell(5)
-                cell1.innerHTML = '<input type="text" name="branch_extra_name" />';
-                cell2.innerHTML = '<input type="text" name="branch_extra_position" />';
-                cell3.innerHTML = '<input type="text" name="branch_extra_email" />';
-                cell4.innerHTML = '<input type="text" name="branch_extra_phone" />';
-                cell5.innerHTML = '<input type="text" name="branch_extra_mailing" />';
-                cell6.innerHTML = '<button type="button" value="Remove Branch member" onclick="remove_branch(this)">Remove</button>'
+<head>
+    <title>BC(9) Online Form</title>
+    <script>
+        var new_branch_count = 0;
+        function add_new_branch_click() {
+            new_branch_count++;
+            var html_to_add = '<div class="form-row" id="new_branch[' + new_branch_count + ']">' +
+                '    <div class="col">' +
+                '        <div class="col-sm-12">' +
+                '            <h4>New Branch Member ' + new_branch_count + ' | <button onclick="remove_branch(' + new_branch_count + ')" value="Remove">Remove</button></h4>' +
+                '        </div>' +
+                '    </div>' +
+                '    <div class="col">' +
+                '        <input type="text" name="extra_name_' + new_branch_count +
+                '" class="form-control"' +
+                'placeholder="Name"  required />' +
+                '</div>' +
+                '<div class="col">' +
+                '    <input type="text" name="extra_position_' + new_branch_count +
+                '" ' +
+                ' class="form-control" placeholder="Position" required />' +
+                '</div>' +
+                '<div class="col">' +
+                '    <input type="email" name="extra_email_' + new_branch_count +
+                '" class="form-control"' +
+                '        placeholder="Email address" required />' +
+                '</div>' +
+                '<div class="col">' +
+                '    <input type="tel" name="extra_tel_' + new_branch_count +
+                '" class="form-control"' +
+                '        placeholder="Phone Number" required />' +
+                '</div>' +
+                '<div class="col">' +
+                '    <input type="text" name="extra_address_' + new_branch_count +
+                '" class="form-control"' +
+                '        placeholder="Mailing Address" required />' +
+                '</div>' +
+                '</div>';
+            const subject = document.querySelector('#add_new_branch_members_button');
+            subject.insertAdjacentHTML("beforebegin", html_to_add);
+        }
+        function remove_branch(btn) {
+            var elem = document.getElementById("new_branch[" + btn + "]");
+            elem.parentNode.removeChild(elem);
+        }
+
+        function show_nlcc_info() {
+            document.getElementById("nlcc_form").classList.remove("hide");
+        }
+        function hide_nlcc_info() {
+            document.getElementById("nlcc_form").classList.add("hide");
+        }
+        function show_rcscc_info() {
+            document.getElementById("sea_form").classList.remove("hide");
+        }
+        function hide_rcscc_info() {
+            document.getElementById("sea_form").classList.add("hide");
+        }
+        function verify_local_inputs() {
+            // Verifies mandatory fields are entered when I can't use the
+            // built in checks (i.e. the checkboxes or the hidden forms)
+            //
+            // Check at least one day of the week is chosen
+            var branch_general_meetings_day = document.getElementsByName("bgm_dow");
+            var checked_boxes = false;
+            for (var i=0; i < branch_general_meetings_day.length; i++) {
+                if (branch_general_meetings_day[i].checked) {
+                    checked_boxes = true;
+                    break;
+                }
             }
-            function remove_branch(btn) {
-                var row = btn.parentNode.parentNode;
-                row.parentNode.removeChild(row);
+            if(!(checked_boxes)) {
+                alert("Please select the day(s) of the week you hold your General Branch Meetings.")
+                console.log("Missing day of week for Branch General Meetings.")
+                return false;
             }
-            function show_nlcc_info() {
-                document.getElementById("nlcc_form").classList.remove("hide");
+            if(
+                (document.getElementById("nlcc_corps_yes").checked) && 
+                (
+                    (document.getElementById("nlcc_corps_and_number").value == '') ||
+                    (document.getElementById("nlcc_co").value == '')
+                )
+            ) {
+                alert("You indicated your branch supports a Navy League Corps. Please fill out the questions about your NLC Corps to continue.")
+                console.log("Branch supports NL Corps, but Corps Name and Number are missing.")
+                return false;
             }
-            function hide_nlcc_info() {
-                document.getElementById("nlcc_form").classList.add("hide");
+            if(
+                (document.getElementById("rcscc_corps_yes").checked) && 
+                (
+                    (document.getElementById("rcscc_corps_and_number").value == '') || 
+                    (document.getElementById("rcscc_co").value == '')
+                )
+            ) {
+                alert("You indicated your branch supports a Royal Canadian Sea Cadet Corps. Please fill out the questions about your RCSC Corps to continue.")
+                console.log("Branch supports RCSC Corps, but Corps Name and Number are missing, or the CO's information is missing.")
+                return false;
             }
-        </script>
-        <style>
-            .hide {
-                display: none;
+            return true;
+        }
+        function uuidv4() {
+            // source: https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+            return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+                );
             }
-        </style>
-    </head>
-    <body>
-        <h1>BC(9) Online Form</h1>
-        <em>To be completed yearly, and when personnel change in the NLCC Corps or the Branch</em>
-        <hr />
-        <p>The BC(9) Form is used to inform BCMD of any changes to the Branch or Navy League Cadet Corps (in terms of officers/instructors). Any time there is a change in Branch or NLCC instructors, this form must be completed.</p>
-        <p>Your @bcmainland.ca address will be assumed for the Branch President and the NLCC CO email.</p>
-        <h2>Branch Information</h2>
-        <form method="POST">
-            <table>
-                <tr>
-                    <td><strong>What is your Branch Name?</strong><br />Please enter your <em>LEGAL NAME</em> for your Branch.</td>
-                    <td><input type="text" name="branch_name" /></td>
-                </tr>
-                <tr>
-                    <td><strong>Branch Mailing Address</strong><br />Please include the City and Postal Code</td>
-                    <td><input type="text" name="branch_mailing_address" /></td>
-                </tr>
-                <tr>
-                    <td><strong>Branch General Meetings Location</strong></td>
-                    <td><input type="text" name="branch_general_meetings_location" /></td>
-                </tr>
-                <tr>
-                    <td><strong>Branch General Meetings day of the week</strong><br />Check all that apply</td>
-                    <td><input type="checkbox" name="bgm_dow" id="bgm_dow_m" /><label for="bgm_dow_m">Monday</label><br />
-                        <input type="checkbox" name="bgm_dow" id="bgm_dow_tues" /><label for="bgm_dow_tues">Tuesday</label><br />
-                        <input type="checkbox" name="bgm_dow" id="bgm_dow_w" /><label for="bgm_dow_w">Wednesday</label><br />
-                        <input type="checkbox" name="bgm_dow" id="bgm_dow_thurs" /><label for="bgm_dow_thurs">Thursday</label><br />
-                        <input type="checkbox" name="bgm_dow" id="bgm_dow_f" /><label for="bgm_dow_f">Friday</label><br />
-                        <input type="checkbox" name="bgm_dow" id="bgm_dow_sat" /><label for="bgm_dow_sat">Saturday</label><br />
-                        <input type="checkbox" name="bgm_dow" id="bgm_dow_sun" /><label for="bgm_dow_sun">Sunday</label><br /></td>
-                </tr>
-                <tr>
-                    <td><strong>Branch General Meetings times</strong></td>
-                    <td align="right">Start: <input type="time" name="bgm_start_time" /><br />
-                    Expected End: <input type="time" name="bgm_end_time" /></td>
-                </tr>
-            </table>
+            console.log(uuidv4());
+        function insert_date() {
+            var currentdate = new Date(); 
+            var datetime = "Submitted: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+            return datetime;
+        }
+        function enter_form_data() {
+            var submitted_date = insert_date();
+            var uuid = uuidv4();
+            document.getElementById("uuid").value = uuid;
+            document.getElementById("submitted_date").value = submitted_date;
+            console.log("UUID - " + uuid);
+            console.log("Date: " + submitted_date);
+        }
+    </script>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>BC(9) Online Form</h1>
+            <em>To be completed yearly, and when personnel change in the Navy League or Sea Cadet Corps or the Branch Executive.</em>
             <hr />
-            <h3>Branch Personnel</h3>
-            <table id="Branch Members">
-                <tr><td colspan="5">Please enter all of your Branch Personnel. Please use the <em>@bcmainland.ca</em> emails where applicable.</td></tr>
-                <tr>
-                    <th>First and Last Name</th>
-                    <th>Position</th>
-                    <th>Email Address</th>
-                    <th>Phone Number</th>
-                    <th>Mailing Address</th>
-                </tr>
-                <tr>
-                    <td><input type="text" name="pres_name" /></td>
-                    <td><strong>President</strong></td>
-                    <td><input type="email" name="pres_email" /></td>
-                    <td><input type="tel" name="pres_tel" /></td>
-                    <td><input type="text" name="pres_address" /></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="vp1_name" /></td>
-                    <td><strong>1st Vice President</strong></td>
-                    <td><input type="email" name="vp1_email" /></td>
-                    <td><input type="tel" name="vp1_tel" /></td>
-                    <td><input type="text" name="vp1_address" /></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="vp2_name" /></td>
-                    <td><strong>2nd Vice President</strong></td>
-                    <td><input type="email" name="vp2_email" /></td>
-                    <td><input type="tel" name="vp2_tel" /></td>
-                    <td><input type="text" name="vp2_address" /></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="treasurer_name" /></td>
-                    <td><strong>Treasurer</strong></td>
-                    <td><input type="email" name="treasurer_email" /></td>
-                    <td><input type="tel" name="treasurer_tel" /></td>
-                    <td><input type="text" name="treasurer_address" /></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="secretary_name" /></td>
-                    <td><strong>Secretary</strong></td>
-                    <td><input type="email" name="secretary_email" /></td>
-                    <td><input type="tel" name="secretary_tel" /></td>
-                    <td><input type="text" name="secretary_address" /></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="vsc_name" /></td>
-                    <td><strong>Volunteer Screening Coordinator</strong></td>
-                    <td><input type="email" name="vsc_email" /></td>
-                    <td><input type="tel" name="vsc_tel" /></td>
-                    <td><input type="text" name="vsc_address" /></td>
-                </tr>
-            </table>
-            <button type="button" id="add_more" value="Add more Branch members" onclick="add_more_branch()">Add more Branch Members</button>
-            <h3>Compliance Information and Governance</h3>
-            <table>
-                <tr>
-                    <td><strong>Date of your last AGM:</strong></td>
-                    <td><input type="date" name="last_agm_date" /></td>
-                </tr>
-                <tr>
-                    <td><strong>When is your Branch Financial Year-End?</strong><br /><em>Did you know?</em> The AGM must be held within 3 months of your Financial Year End</td>
-                    <td><input type="date" name="financial_year_end" /></td>
-                </tr>
-                <tr>
-                    <td><strong>Have your forwarded your most recent financial year end documents to the BC Mainland Treasurer?</strong><br />Email them to <a href="mailto:treasurer@bcmainland.ca?subject='Year End Financials'&body='I have attached our Balance Sheet, Income Statement, Budgets for the upcoming year, Accounts Receivable and Bank Reconciliation'">treasurer@bcmainland.ca</a></td>
-                    <td><input type="radio" name="submitted_financials" id="financials_no" checked="true" /><label for="financials_no">No</label> | <input type="radio" name="submitted_financials" id="financials_yes" /><label for="financials_yes">Yes</label></td>
-                </tr>
-            </table>
-            <h2>Navy League Corps Information</h2>
-            <p><strong>Does your branch support a Navy League Corps?</strong></p>
-            <p><input type="radio" name="nlcc_corps" id="nlcc_corps_no" onclick="hide_nlcc_info();" checked="true" /><label for="nlcc_corps_no">No</label> | <input type="radio" name="nlcc_corps" id="nlcc_corps_yes" onclick="show_nlcc_info();"/><label for="nlcc_corps_yes">Yes</label></p>
-            <div id="nlcc_form" class="hide">
-                <h3>Please work with your NLCC Commanding Officer to complete the information below:</h3>
-                <table>
-                    <tr>
-                        <td><strong>Corps Name and Number:</strong></td>
-                        <td><input type="text" name="nlcc_corps_and_number" placeholder="123 NLCC Awesomeness" /></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Are all your officers and instructors entered into <a href="https://bc.rollcall.navyleagueofcanada.org/pulse/" target="_blank">Roll Call</a>?</strong><br /><em>Did you know?</em> All Navy League Cadet personnel needs to be entered into Roll Call.</td>
-                        <td><input type="radio" name="nlcc_in_rollcall" id="rollcall_no" checked="true" /><label for="rollcall_no">No</label> | <input type="radio" name="nlcc_in_rollcall" id="rollcall_yes" /><label for="rollcall_yes">Yes</label>
-                        </td>
-                    </tr>
-                </table>
+            <p>The BC(9) Form is used to inform BCMD of any changes to the Branch or Navy League Cadet Corps (in terms of officers/instructors). Any time there is a change, this form must be completed.</p>
+            <p>Your @bcmainland.ca address will be assumed for the Branch President and the NLCC CO email. If you are not using these yet, contact your Area Advisor.</p>
+            <p>Unless specified otherwise, <strong>all fields are mandatory.</strong></p>
+        </div>
+        <form method="POST" class="needs-validation" action="/submit" onsubmit="return verify_local_inputs();" >
+            <div class="row">
+                <h2>Branch Information</h2>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <strong>What is your Branch Name?</strong>
+                        <input type="text" name="branch_name" class="form-control" required />
+                        <small class="form-text text-muted">Please enter your <em>LEGAL NAME</em> for
+                            your Branch.</small>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <strong>Branch Mailing Address</strong>
+                        <input type="text" name="branch_mailing_address" class="form-control" required />
+                        <small class="form-text text-muted">Please include the City and Postal Code</small>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <strong>Branch General Meetings Location</strong>
+                        <input type="text" name="branch_general_meetings_location" class="form-control" required />
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <strong>Branch General Meetings day of the week</strong><br />
+                        <div class="form-check">
+                            <input type="checkbox" name="bgm_dow" id="bgm_dow_m" class="form-check-input" /> <label
+                                for="bgm_dow_m">Monday</label><br />
+                            <input type="checkbox" name="bgm_dow" id="bgm_dow_tues" class="form-check-input" /> <label
+                                for="bgm_dow_tues">Tuesday</label><br />
+                            <input type="checkbox" name="bgm_dow" id="bgm_dow_w" class="form-check-input" /> <label
+                                for="bgm_dow_w">Wednesday</label><br />
+                            <input type="checkbox" name="bgm_dow" id="bgm_dow_thurs" class="form-check-input" /> <label
+                                for="bgm_dow_thurs">Thursday</label><br />
+                            <input type="checkbox" name="bgm_dow" id="bgm_dow_f" class="form-check-input" /> <label
+                                for="bgm_dow_f">Friday</label><br />
+                            <input type="checkbox" name="bgm_dow" id="bgm_dow_sat" class="form-check-input" /> <label
+                                for="bgm_dow_sat">Saturday</label><br />
+                            <input type="checkbox" name="bgm_dow" id="bgm_dow_sun" class="form-check-input" /> <label
+                                for="bgm_dow_sun">Sunday</label><br />
+                        </div>
+                        <small class="form-text text-muted">Check all that
+                            apply</small>
+                    </div>
+                    <div class="form-group">
+                        <strong>Branch General Meetings times</strong><br />
+                        Start: <input type="time" name="bgm_start_time" class="form-control" required /><br />
+                        Expected End: <input type="time" name="bgm_end_time" class="form-control" required />
+                    </div>
+                </div>
+                <h3>Branch Personnel</h3>
+                <p>Please enter all of your Branch Personnel. Please use the
+                    <em>@bcmainland.ca</em> emails where applicable.
+                </p>
+                <small class="form-text text-muted"><strong>NOTE: </strong>If the same person occupies multiple roles in
+                    the
+                    local Branch Executive, list them in all the applicable fields.</small>
             </div>
-            <hr />
-            <p>All information entered into this form is protected by the Navy League of Canada Privacy Policy. Information is used for administrative purposes only. This form is required to be completed at the start of every training year, and after each AGM.</p>
-            <p>Please double-check that all the information provided is correct and complete.</p>
-            <p><input type="checkbox" id="verified" /><label for="verified">I verify the information above is accurate and complete to the best of my abilities</label></p>
-            <p><input type="submit" value="Submit to BCMD" /> | <input type="reset" value="Reset form" /></p>
-        </form>
-    </body>
+            <h4>President</h4>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="pres_name" id="pres_name" class="form-control" required
+                        placeholder="President First and Last Name" />
+                </div>
+                <div class="col">
+                    <input type="text" readonly class="form-control" value="President" />
+                </div>
+                <div class="col">
+                    <input type="email" name="pres_email" id="pres_email" class="form-control"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required
+                        placeholder="President's Email address" />
+                </div>
+                <div class="col">
+                    <input type="tel" name="pres_tel" class="form-control" placeholder="President's Phone Number"
+                        required />
+                </div>
+                <div class="col">
+                    <input type="text" name="pres_address" class="form-control"
+                        placeholder="President's Mailing Address" required />
+                </div>
+            </div>
+            <h4>1st VP</h4>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="vp1_name" class="form-control" placeholder="1st VP Name" required />
+                </div>
+                <div class="col">
+                    <input type="text" readonly class="form-control" value="1st Vice President" />
+                </div>
+                <div class="col">
+                    <input type="email" name="vp1_email" class="form-control" placeholder="1st VP Email address"
+                        required />
+                </div>
+                <div class="col">
+                    <input type="tel" name="vp1_tel" class="form-control" placeholder="1st VP Phone Number" required />
+                </div>
+                <div class="col"><input type="text" name="vp1_address" class="form-control"
+                        placeholder="1st VP Mailing Address" required />
+                </div>
+            </div>
+            <h4>2nd VP</h4>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="vp2_name" class="form-control" placeholder="2nd VP Name" required />
+                </div>
+                <div class="col">
+                    <input type="text" readonly class="form-control" value="2nd Vice President" /></strong>
+                </div>
+                <div class="col">
+                    <input type="email" name="vp2_email" class="form-control" placeholder="2nd VP Email address"
+                        required />
+                </div>
+                <div class="col">
+                    <input type="tel" name="vp2_tel" class="form-control" placeholder="2nd VP Phone Number" required />
+                </div>
+                <div class="col">
+                    <input type="text" name="vp2_address" class="form-control" placeholder="2nd VP Mailing Address"
+                        required />
+                </div>
+            </div>
+            <h4>Treasurer</h4>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="treasurer_name" class="form-control" placeholder="Treasurer Name"
+                        required />
+                </div>
+                <div class="col">
+                    <input type="text" readonly class="form-control" value="Treasurer" />
+                </div>
+                <div class="col">
+                    <input type="email" name="treasurer_email" class="form-control"
+                        placeholder="Treasurer Email address" required />
+                </div>
+                <div class="col">
+                    <input type="tel" name="treasurer_tel" class="form-control" placeholder="Treasurer Phone Number"
+                        required />
+                </div>
+                <div class="col">
+                    <input type="text" name="treasurer_address" class="form-control"
+                        placeholder="Treasurer Mailing Address" required />
+                </div>
+            </div>
+            <h4>Secretary</h4>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="secretary_name" class="form-control" placeholder="Secretary Name"
+                        required />
+                </div>
+                <div class="col">
+                    <input type="text" readonly class="form-control" value="Secretary" />
+                </div>
+                <div class="col">
+                    <input type="email" name="secretary_email" class="form-control"
+                        placeholder="Secretary Email address" required />
+                </div>
+                <div class="col">
+                    <input type="tel" name="secretary_tel" class="form-control" placeholder="Secretary Phone Number"
+                        required />
+                </div>
+                <div class="col">
+                    <input type="text" name="secretary_address" class="form-control"
+                        placeholder="Secretary Mailing Address" required />
+                </div>
+            </div>
+            <h4>Screening Coordinator</h4>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="vsc_name" class="form-control" placeholder="Screening Coordinator Name"
+                        required />
+                </div>
+                <div class="col">
+                    <input type="text" readonly class="form-control" value="Volunteer Screening Coordinator" />
+                </div>
+                <div class="col">
+                    <input type="email" name="vsc_email" class="form-control"
+                        placeholder="Screening Coordinator Email address" required />
+                </div>
+                <div class="col">
+                    <input type="tel" name="vsc_tel" class="form-control"
+                        placeholder="Screening Coordinator Phone Number" required />
+                </div>
+                <div class="col">
+                    <input type="text" name="vsc_address" class="form-control"
+                        placeholder="Screening Coordinator Mailing Address" required />
+                </div>
+
+            </div>
+            <div class="form-group row" id="add_new_branch_members_button">
+                <div class="col-sm-10">
+                    <button type="button" id="insert" value="Add more Branch members"
+                        onclick="add_new_branch_click()">Add more
+                        Branch Members</button>
+                </div>
+            </div>
+            <div class="row">
+                <h3>Compliance Information and Governance</h3>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <strong>Date of your last AGM:</strong>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input type="date" name="last_agm_date" required />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <strong>When is your Branch Financial Year-End?</strong>
+                </div>
+                <div class="col-sm-6">
+                    <input type="date" name="financial_year_end" required />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <small class="form-text text-muted"><em>Did you know?</em> The AGM
+                        must be held within 3 months of your Financial Year End</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <strong>Have you forwarded your most recent financial year end documents to the BC Mainland
+                        Treasurer?</strong><br />
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        <input type="radio" name="submitted_financials" id="financials_no" checked
+                            class="form-check-input" value="no" /> <label for="financials_no"
+                            class="form-check-label">No</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="submitted_financials" id="financials_yes" class="form-check-input"
+                            value="yes" /> <label for="financials_yes" class="form-check-label">Yes</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <small class="form-text text-muted">Email them to <a
+                            href="mailto:treasurer@bcmainland.ca?subject='Year End Financials'&body='I have attached our Balance Sheet, Income Statement, Budgets for the upcoming year, Accounts Receivable and Bank Reconciliation'">treasurer@bcmainland.ca</a>.
+                        This includes the Balance Sheet, Income Statement, Budget for
+                        the upcoming year, Accounts Receivable, and Bank Reconciliation</small>
+                </div>
+            </div>
+            <div class="row">
+                <h2>Navy League Cadet Corps Information</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <strong>Does your Branch support a Navy League Corps?</strong>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        <input type="radio" name="nlcc_corps" id="nlcc_corps_no" checked class="form-check-input"
+                            value="no" onclick="hide_nlcc_info();" /> <label for="nlcc_corps_no"
+                            class="form-check-label">No</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="nlcc_corps" id="nlcc_corps_yes" class="form-check-input" value="yes"
+                            onclick="show_nlcc_info();" /> <label for="nlcc_corps_yes"
+                            class="form-check-label">Yes</label>
+                    </div>
+                </div>
+            </div>
+            <div id="nlcc_form" class="hide">
+                <div class="row">
+                    <h3>NLCC Corps Information:</h3>
+                    <small>Please work with your NLCC Commanding Officer to complete the information below:</small>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <strong>Corps Name and Number:</strong>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="nlcc_corps_and_number" placeholder="123 NLCC Awesomeness" name="nlcc_corps_and_number"
+                            class="form-control" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" id="nlcc_co" name="nlcc_co" placeholder="NLCC CO's Rank and Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <strong>Are all your officers and instructors entered into <a
+                                href="https://bc.rollcall.navyleagueofcanada.org/pulse/" target="_blank">Roll
+                                Call</a>?</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-check">
+                            <input type="radio" name="nlcc_in_rollcall" id="rollcall_no" checked="true" value="no"
+                                class="form-check-input" /><label for="rollcall_no" class="form-check-label">No</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" name="nlcc_in_rollcall" id="rollcall_yes" value="yes"
+                                class="form-check-input" /><label for="rollcall_yes"
+                                class="form-check-label">Yes</label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <small class="form-text text-muted"><em>Did you know?</em> All Navy League Cadet personnel
+                            needs to be entered into Roll Call.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <h2>Royal Canadian Sea Cadet Corps Information</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <strong>Does your Branch support a Royal Canadian Sea Cadet Corps?</strong>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-check">
+                        <input type="radio" name="rcscc_corps" id="rcscc_corps_no" checked class="form-check-input"
+                            value="no" onclick="hide_rcscc_info();" /> <label for="rcscc_corps_no"
+                            class="form-check-label">No</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="rcscc_corps" id="rcscc_corps_yes" class="form-check-input" value="yes"
+                            onclick="show_rcscc_info();" /> <label for="rcscc_corps_yes"
+                            class="form-check-label">Yes</label>
+                    </div>
+                </div>
+            </div>
+            <div id="sea_form" class="hide">
+                <div class="row">
+                    <h3>RCSCC Corps Information:</h3>
+                    <small>Please work with your RCSCC Commanding Officer to complete the information below:</small>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <strong>Corps Name and Number:</strong>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="rcscc_corps_and_number" placeholder="123 RCSCC Awesomeness" name="rcscc_corps_and_number" 
+                            class="form-control" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" id="rcscc_co" name="rcscc_co" placeholder="RCSCC CO's Rank and Name"
+                            class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <small class="form-text text-muted"><em>Did you know?</em> Branches are able to recoup many
+                            costs for
+                            the Sea Cadet program through Local Support Allocations (LSAs) and Training Supply
+                            Reimbursements
+                            (TSRs)? Ask your Sea Cadet Chair for more info, or contact the <a
+                                href="mailto:bcmdseachair@bcmainland.ca">BCMD Sea Cadet Chair</a> for more
+                            information.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <h2>Final steps...</h2>
+            </div>
+            <div class="row">
+                <div class="form-row">
+                    <div class="col-sm-4">
+                        <strong>Any additional comments you would like to add?</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        <textarea id="additional_comments" placeholder="Additional Comments (optional)"
+                            class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>All information entered into this form is protected by the Navy League of Canada Privacy
+                        Policy.
+                        Information
+                        is used for administrative purposes only. This form is required to be completed at the start
+                        of
+                        every
+                        training year, and after each AGM.</p>
+                    <p>Please double-check that all the information provided is correct and complete.</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <input type="checkbox" id="verified" name="verified" class="form-check-input" required onclick="enter_form_data();" /> <label for="verified"
+                    class="form-check-label">I verify the
+                    information above is
+                    accurate and
+                    complete to the best of my abilities</label>
+            </div>
+            <div class="form-row hide">
+                <input type="text" name="uuid" id="uuid" />
+                <input type="text" name="submitted_date" id="submitted_date" />
+            </div>
+            <div class="form-row">
+                <p><input type="submit" value="Submit to BCMD" class="btn btn-primary" /></p>
+                <p><input type="reset"
+                    value="Reset form" class="btn btn-light" /></p>
+            </div>
+    </div>
+
+    </div>
+
+    </form>
+    </div>
+</body>
+
 </html>
