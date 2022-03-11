@@ -107,6 +107,10 @@ def submitted_form():
     add_to_database(data)
     return render_template('response.html', form=request.form, people=people)
 
+@app.route('/images/BCMD_Crest.png', methods=['GET'])
+def load_crest():
+    return send_file("images/BCMD_Crest.png")
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
