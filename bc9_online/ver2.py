@@ -6,9 +6,9 @@ from wtforms import StringField, SubmitField, RadioField
 from wtforms.validators import DataRequired
 
 DEBUG = True
-WTF_CSRF_SECRET_KEY = "trQ80AbOOttrlcizwimSMtQTpo2nm8hv"
+WTF_CSRF_SECRET_KEY = ""
 RECAPTCHA_PUBLIC_KEY = "6LcbytEeAAAAAOgX2XjYPWCE1q4rRXD601lkBp-k"
-RECAPTCHA_PRIVATE_KEY = "6LcbytEeAAAAAIVy3r8rJqSQlTvXLb21we9tAw1c"
+RECAPTCHA_PRIVATE_KEY = ""
 # RECAPTCHA_API_SERVER = ""
 RECAPTCHA_PARAMETERS = {'hl': 'zh', 'render': 'explicit'}
 RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
