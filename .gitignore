@@ -2,3 +2,5 @@
 .vscode/
 bc9_online/bc9_outputs/*.json
 __pycache__/
+bc9_online/.pytest_cache/
+bc9_online/get_bc9.log

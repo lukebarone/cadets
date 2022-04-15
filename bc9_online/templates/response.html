@@ -11,6 +11,7 @@
         <p>Branch Name and Mailing Address:</p>
         <p>{{ form.branch_name }}<br />
             {{ form.branch_mailing_address }}</p>
+        <p>Meeting Dates: {{ form.get('bgm_dow') }}</p>
         <p>General Meeting location:<br />
             {{ form.branch_general_meetings_location }}</p>
         <p>General Meeting Time: {{ form.bgm_start_time }} to {{ form.bgm_end_time }}</p>
