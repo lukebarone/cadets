@@ -5,11 +5,13 @@ from smtplib import SMTP
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
+from dotenv import load_dotenv
 
 SMTP_PORT = 587
 SMTP_SERVER = "smtp.gmail.com"
 SENDER_EMAIL = "bc9@bcmainland.ca"
 RECEIVER_EMAIL = "lbarone+bc9@bcmainland.ca"
+load_dotenv("/var/cadets/.env")
 PASSWORD = os.environ['BC9_APP_PASSWORD']
 SUBJECT = "BC9 Submission"
 
