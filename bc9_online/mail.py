@@ -4,6 +4,7 @@
 from smtplib import SMTP
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import os
 
 SMTP_PORT = 587
 SMTP_SERVER = "smtp.gmail.com"

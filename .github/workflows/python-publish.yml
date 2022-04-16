@@ -6,4 +6,14 @@ jobs:
     steps:
     - name: GitHub Action for pylint
       uses: cclauss/GitHub-Action-for-pylint@0.7.0
-      #run: "pip install -r requirements.txt ; pylint **/*.py"
+      run: |
+        pip install -r requirements.txt
+        pylint **/*.py"
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Publish BC9
+      env:
+        BC9_APP_PASSWORD: ${{ secrets.BC9_APP_PASSWORD }}
+      run: |
+        echo "BC9_APP_PASSWORD=${{ secrets.BC9_APP_PASSWORD }}" > .env
