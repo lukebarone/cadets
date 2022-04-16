@@ -14,3 +14,8 @@ jobs:
         BC9_APP_PASSWORD: ${{ secrets.BC9_APP_PASSWORD }}
       run: |
         echo "BC9_APP_PASSWORD=${{ secrets.BC9_APP_PASSWORD }}" > .env
+        echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
+        ssh -i /tmp/ssh-key root@server.talk-about-it.ca "cd /var; \
+        rm -rf /var/cadets; \
+        git clone --depth 1 https://github.com/lukebarone/cadets"
+        scp -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/
