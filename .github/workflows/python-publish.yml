@@ -17,6 +17,9 @@ jobs:
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
         chmod 0600 /tmp/ssh-key
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca "cd /var; \
-        rm -rf /var/cadets; \
-        git clone --depth 1 https://github.com/lukebarone/cadets"
+        mkdir -p /root/bc9_outputs/; \
+        mv /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/; \
+        git clone --depth 1 https://github.com/lukebarone/cadets; \
+        cp /root/bc9_outputs/*.json; \
+        python3 -m pip install -r /var/cadets/bc9_online/requirements.txt"
         scp -o StrictHostKeyChecking=no -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/
