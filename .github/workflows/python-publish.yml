@@ -19,6 +19,7 @@ jobs:
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca "cd /var; \
         mkdir -p /root/bc9_outputs/; \
         mv /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/; \
+        rm -rf /var/cadets; \
         git clone --depth 1 https://github.com/lukebarone/cadets; \
         cp /root/bc9_outputs/*.json; \
         python3 -m pip install -r /var/cadets/bc9_online/requirements.txt"
