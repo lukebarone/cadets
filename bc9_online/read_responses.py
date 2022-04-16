@@ -6,11 +6,14 @@ To run regression tests:
 python3 -m doctest Untitled-1.py"""
 import json
 import os
+import sys
 
 import jinja2
-from models import person
 
-def entry_point(uuid: str):
+def send_email(email_body: str) -> bool:
+    pass
+
+def entry_point(uuid: str) -> str:
     """Function description
     
     >>> entry_point(9, 4)
@@ -24,46 +27,6 @@ def entry_point(uuid: str):
     data = {}
     with open(filename, "r", encoding='utf-8') as input_file_handle:
         data = json.load(input_file_handle)
-    president = person.Person(Name=data['pres_name'],
-                       Address=data['pres_address'],
-                       Position="President",
-                       Email=data['pres_email'],
-                       Telephone=data['pres_tel'])
-    vp1 = person.Person(Name=data['vp1_name'],
-                 Address=data['vp1_address'],
-                 Position="1st Vice President",
-                 Email=data['vp1_email'],
-                 Telephone=data['vp1_tel'])
-    vp2 = person.Person(Name=data['vp2_name'],
-                 Address=data['vp2_address'],
-                 Position="2nd Vice President",
-                 Email=data['vp2_email'],
-                 Telephone=data['vp2_tel'])
-    treasurer = person.Person(Name=data['treasurer_name'],
-                       Address=data['treasurer_address'],
-                       Position="Treasurer",
-                       Email=data['treasurer_email'],
-                       Telephone=data['treasurer_tel'])
-    secretary = person.Person(Name=data['secretary_name'],
-                       Address=data['secretary_address'],
-                       Position="Secretary",
-                       Email=data['secretary_email'],
-                       Telephone=data['secretary_tel'])
-    vsc = person.Person(Name=data['vsc_name'],
-                 Address=data['vsc_address'],
-                 Position="Volunteer Screening Coordinator",
-                 Email=data['vsc_email'],
-                 Telephone=data['vsc_tel'])
-    people = [president, vp1, vp2, treasurer, secretary, vsc]
-    # for i in range(100):
-    #     index = i.__str__()
-    #     if data.getlist('extra_name_' + index).__str__() != "[]":
-    #         extra_person = person.Person(data['extra_name_' + index],
-    #             data['extra_address_' + index],
-    #             data['extra_tel_' + index],
-    #             data['extra_email_' + index],
-    #             data['extra_position_' + index])
-    #         people.append(extra_person)
     template_format = '''
 Branch Name: {{ branch_name }}
 Mailing Address: {{ branch_mailing_address }}
@@ -114,18 +77,24 @@ Information assumed accurate by the date {{ submitted_date }}
     '''
     template = jinja2.Template(template_format)
     output = template.render(data)
-    print(output)
+    #print(output)
     return output
 
 
-def main():
+def main(argument:str = None):
     """Main entry point"""
-    uuid = input("UUID: ")
+    if argument is None:
+        uuid = input("UUID: ")
+    else:
+        uuid = argument
     if not os.path.exists(os.path.join(os.path.relpath("bc9_outputs"), uuid + ".json")):
         print("Path or file does not exist")
         exit(1)
-    entry_point(uuid)
-    
-    
+    send_email(entry_point(uuid))
+
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 2:
+        main()
+    else:
+        main(sys.argv[1])

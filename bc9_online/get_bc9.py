@@ -4,6 +4,8 @@ Router and Controller for getting the BC(9) Forms entered.
 import json
 import logging
 import os
+import read_responses
+from mail import send_mail
 
 from flask import Flask, render_template, request, send_file
 from models import person
@@ -26,6 +28,8 @@ def add_to_database(data: dict) -> bool:
     with open(filename, "w", encoding='utf-8') as output_file_handle:
         json.dump(data, output_file_handle)
     logging.info("Wrote file %s", filename)
+    email_to_send = read_responses.entry_point(data['uuid'])
+    send_mail(email_to_send)
 
 
 app = Flask(__name__)
@@ -89,6 +93,10 @@ def submitted_form():
             people.append(extra_person)
     add_to_database(data)
     return render_template('response.html', form=request.form, people=people)
+
+@app.route('/images/BCMD_Crest.png', methods=['GET'])
+def load_crest():
+    return send_file("images/BCMD_Crest.png")
 
 
 if __name__ == "__main__":
