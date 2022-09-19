@@ -93,7 +93,7 @@ def submitted_form():
                 data['extra_email_' + index],
                 data['extra_position_' + index])
             people.append(extra_person)
-    thread = threading.Thread(target=add_to_database, args=(data))
+    thread = threading.Thread(target=add_to_database, args=(data,))
     thread.start()
     #add_to_database(data)
     return render_template('response.html', form=request.form, people=people)
