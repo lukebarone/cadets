@@ -21,6 +21,9 @@ jobs:
         mv /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/; \
         rm -rf /var/cadets; \
         git clone --depth 1 https://github.com/lukebarone/cadets; \
-        cp /root/bc9_outputs/*.json; \
-        python3 -m pip install -r /var/cadets/bc9_online/requirements.txt"
+        cp /root/bc9_outputs/*.json /var/cadets/bc9_online/bc9_outputs/; \
+        python3 -m pip install -r /var/cadets/bc9_online/requirements.txt; \
+        chown -R www-data:www-data /var/cadets/bc9_online/bc9_outputs; \
+        touch /var/cadets/bc9_online/get_bc9.log; \
+        chown www-data:www-data /var/cadets/bc9_online/get_bc9.log;"
         scp -o StrictHostKeyChecking=no -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/
