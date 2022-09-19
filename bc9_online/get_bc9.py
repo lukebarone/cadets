@@ -4,10 +4,12 @@ Router and Controller for getting the BC(9) Forms entered.
 import json
 import logging
 import os
-import read_responses
-from mail import send_mail
+import threading
 
 from flask import Flask, render_template, request, send_file
+
+import read_responses
+from mail import send_mail
 from models import person
 
 NOT_CHECKED_ERROR_MSG = """You need to check the box acknowledging the data is
@@ -91,11 +93,14 @@ def submitted_form():
                 data['extra_email_' + index],
                 data['extra_position_' + index])
             people.append(extra_person)
-    add_to_database(data)
+    thread = threading.Thread(target=add_to_database(data))
+    thread.start()
+    #add_to_database(data)
     return render_template('response.html', form=request.form, people=people)
 
 @app.route('/images/BCMD_Crest.png', methods=['GET'])
 def load_crest():
+    """Returns the crest for an image file"""
     return send_file("images/BCMD_Crest.png")
 
 
