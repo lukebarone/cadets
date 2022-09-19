@@ -4,7 +4,6 @@ Router and Controller for getting the BC(9) Forms entered.
 import json
 import logging
 import os
-import threading
 
 from flask import Flask, render_template, request, send_file
 
@@ -93,9 +92,7 @@ def submitted_form():
                 data['extra_email_' + index],
                 data['extra_position_' + index])
             people.append(extra_person)
-    thread = threading.Thread(target=add_to_database, args=(data,))
-    thread.start()
-    #add_to_database(data)
+    add_to_database(data)
     return render_template('response.html', form=request.form, people=people)
 
 @app.route('/images/BCMD_Crest.png', methods=['GET'])
