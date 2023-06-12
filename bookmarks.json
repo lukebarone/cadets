@@ -1,0 +1,87 @@
+[
+    {
+        "toplevel_name": "BCMD Bookmarks"
+    },
+    {
+        "name": "Gmail",
+        "url": "https://gmail.com"
+    },
+    {
+        "name": "Google Drive (File Storage)",
+        "url": "https://drive.google.com"
+    },
+    {
+        "name": "Google Docs (Word Processor)",
+        "url": "https://docs.google.com"
+    },
+    {
+        "name": "Google Sheets (Spreadsheets)",
+        "url": "https://sheets.google.com"
+    },
+    {
+        "name": "Google Admin (User management)",
+        "url": "https://admin.google.com"
+    },
+    {
+        "name": "Google Calendar",
+        "url": "https://calendar.google.com"
+    },
+    {
+        "name": "Roll Call",
+        "url": "https://bc.rollcall.navyleagueofcanada.org/pulse"
+    },
+    {
+        "name": "Navy League of Canada links",
+        "children": [
+            {
+                "name": "Homepage",
+                "url": "https://navyleague.ca"
+            },
+            {
+                "name": "Navy League Cadets",
+                "url": "https://navyleague.ca/navy-league-cadets"
+            },
+            {
+                "name": "Sea Cadets",
+                "url": "https://navyleague.ca/royal-canadian-sea-cadets"
+            },
+            {
+                "name": "Maritime Affairs",
+                "url": "https://navyleague.ca/maritime-affairs"
+            },
+            {
+                "name": "Donate",
+                "url": "https://navyleague.ca/donate"
+            },
+            {
+                "name": "Volunteer",
+                "url": "https://navyleague.ca/volunteer"
+            },
+            {
+                "name": "Contact",
+                "url": "https://navyleague.ca/contact"
+            },
+            {
+                "name": "Navy League of Canada.org",
+                "children": [
+                    {
+                        "name": "Forms",
+                        "url": "https://navyleagueofcanada.org/forms"
+                    },
+                    {
+                        "name": "Insurance",
+                        "url": "https://navyleagueofcanada.org/insurance"
+                    },
+                    {
+                        "name": "Wardroom",
+                        "url": "https://navyleagueofcanada.org/wardroom"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Online Criminal Record Check",
+        "url": "https://justice.gov.bc.ca/criminalrecordcheck"
+    }
+]

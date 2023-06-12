@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, render_template
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
@@ -6,9 +7,10 @@ from wtforms import StringField, SubmitField, RadioField
 from wtforms.validators import DataRequired
 
 DEBUG = True
-WTF_CSRF_SECRET_KEY = ""
+
+WTF_CSRF_SECRET_KEY = os.environ.get('WTF_CSRF_SECRET_KEY')
 RECAPTCHA_PUBLIC_KEY = "6LcbytEeAAAAAOgX2XjYPWCE1q4rRXD601lkBp-k"
-RECAPTCHA_PRIVATE_KEY = ""
+RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
 # RECAPTCHA_API_SERVER = ""
 RECAPTCHA_PARAMETERS = {'hl': 'zh', 'render': 'explicit'}
 RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
