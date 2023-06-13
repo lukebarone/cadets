@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>BCMD AGM Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        var personnel_count = 0;
+
+        function add_delegate_form_click() {
+            personnel_count++;
+            var add_delegate_form = '<div class="container" id="additional_personnel[' + personnel_count + ']">' +
+                '        <div class="row">' +
+                '            <div class="col">' +
+                '                Additional Person ' + personnel_count +
+                '            </div>' +
+                '        </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-4">' +
+                '                <strong>Name</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-8">' +
+                '                <input type="text" name="personnel_name[' + personnel_count + ']" class="form-control" placeholder="Name" required />' +
+                '            </div>' +
+                '            <div class="col-sm-4">' +
+                '                <strong>Position</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-8">' +
+                '                <select id="personnel_type[' + personnel_count + ']" name="personnel_type" class="form-control" required>' +
+                '                    <option value="nonvoting">Non-voting Branch Member</option>' +
+                '                    <option value="officer">Officer (non-voting member)</option>' +
+                '                    <option value="meals_only">Meals Only</option>' +
+                '                    <option value="awards_dinner_only">Awards Dinner Only</option>' +
+                '                </select>' +
+                '            </div>' +
+                '            <div class="col-sm-4">' +
+                '                <strong>Dietary Restrictions</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-8">' +
+                '                <input type="text" name="personnel_allergy[' + personnel_count + ']" class="form-control"' +
+                '                    placeholder="Dietary Restrictions" />' +
+                '            </div>' +
+                '        </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-12">' +
+                '                <button type="button" id="remove" value="Remove this participant" class="btn"' +
+                '                    onclick="remove_participant(' + personnel_count + ')">Remove this participant</button>' +
+                '            </div>' +
+                '        </div>' +
+                '    </div>';
+            const subject = document.querySelector('#add_new_participant_button');
+            subject.insertAdjacentHTML("beforebegin", add_delegate_form);
+        }
+        function remove_participant(participant) {
+            var elem = document.getElementById("additional_personnel[" + participant + "]");
+            elem.parentNode.removeChild(elem);
+            personnel_count--;
+        }
+        function uuidv4() {
+            // source: https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+        console.log(uuidv4());
+        function insert_date() {
+            var currentdate = new Date();
+            var datetime = "Submitted: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+            return datetime;
+        }
+        function enter_form_data() {
+            var submitted_date = insert_date();
+            var uuid = uuidv4();
+            document.getElementById("uuid").value = uuid;
+            document.getElementById("submitted_date").value = submitted_date;
+            console.log("UUID - " + uuid);
+            console.log("Date: " + submitted_date);
+        }
+        function calculate_costs(voting, non_voting, meals_only, awards_only) {
+            var running_cost = 0;
+            running_cost += voting * 0;
+            running_cost += non_voting * 200;
+            running_cost += meals_only * 185;
+            running_cost += awards_only * 75;
+            document.getElementById("amount_payable").value = running_cost;
+            return running_cost;
+        }
+        function verify_local_inputs() {
+            return true;
+        }
+        // delegate_position - Initial person
+        // personnel_type[] - Additional people
+        function count_types_of_people() {
+            var delegate_count = 0;
+            var non_voting_count = 0;
+            var meals_only = 0;
+            var awards_dinner_only = 0;
+            var inputs = document.getElementsByName("personnel_type");
+            var main_person = document.getElementsByName("delegate_position");
+            switch (main_person[0].value) {
+                case "non_voting":
+                    non_voting_count++;
+                    break;
+                default:
+                    delegate_count++;
+            }
+
+            for (var i = 0; i < inputs.length; i++) {
+                switch (inputs[i].value) {
+                    case "officer":
+                    case "nonvoting":
+                        non_voting_count++;
+                        break;
+                    case "meals_only":
+                        meals_only++;
+                        break;
+                    case "awards_dinner_only":
+                        awards_dinner_only++;
+                }
+            }
+            document.getElementById("people_count").value = delegate_count + non_voting_count + meals_only + awards_dinner_only;
+            calculate_costs(delegate_count, non_voting_count, meals_only, awards_dinner_only)
+        }
+    </script>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>BCMD AGM Registration Form</h1>
+            <em>Use this form to let BCMD know who will be attending the AGM this year.</em>
+            <hr />
+            <p>Note: Different from previous years, <strong>EVERYONE WHO INTENDS TO ATTEND MUST FILL THIS OUT!</strong>
+                You can fill it out for all your members if they belong to the same Branch.
+            </p>
+            <p>If you run into technical issues filling out the form, please email the <a
+                    href="mailto:tech@bcmainland.ca?subject=AGM">Tech Support Team</a>. For logistical issues or
+                concerns, please email the <a href="mailto:agm@bcmainland.ca">AGM Planning Team</a>.</p>
+        </div>
+        <form method="POST" class="needs-validation" action="/submit" onsubmit="return verify_local_inputs();">
+            <div class="row">
+                <h2>Branch Information</h2>
+                <div class="col-sm-4">
+                    <strong>What is your Branch Name?</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <select id="branch_name" name="branch_name" class="form-control">
+                            <option value="bcmd">BCMD Executive and Area Officers</option>
+                            <option value="rcsu">Regional Cadet Support Unit Pacific</option>
+                            <option value="national">Navy League of Canada National Office</option>
+                            <option value="aldergrove">Aldergrove</option>
+                            <option value="ashcroft">Ashcroft</option>
+                            <option value="burnaby">Burnaby</option>
+                            <option value="chilcotin">Chilcotin (Williams Lake)</option>
+                            <option value="chilliwack">Chilliwack</option>
+                            <option value="gibsons">Gibsons</option>
+                            <option value="vancouver">Greater Vancouver</option>
+                            <option value="haidagwaii">Haida Gwaii</option>
+                            <option value="kamloops">Kamloops</option>
+                            <option value="kelowna">Kelowna</option>
+                            <option value="mapleridge">Maple Ridge</option>
+                            <option value="nelson">Nelson</option>
+                            <option value="newwestminster">New Westminster</option>
+                            <option value="nwvancouver">North and West Vancouver</option>
+                            <option value="pocomo">PoCoMo</option>
+                            <option value="princegeorge">Prince George</option>
+                            <option value="princerupert">Prince Rupert</option>
+                            <option value="richmond">Richmond</option>
+                            <option value="smithers">Smithers</option>
+                            <option value="surrey">Surrey White Rock</option>
+                            <option value="vernon">Vernon</option>
+                        </select>
+                        <small class="form-text text-muted">Please enter the Branch you are coming from.</small>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>What is your name?</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input type="text" name="participant_name" class="form-control"
+                            placeholder="First and Last name" required />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>What is your email address?</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input type="email" name="participant_email" class="form-control" placeholder="Email Address"
+                            required />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>What is your phone number?</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input type="tel" name="participant_phone" class="form-control" placeholder="Phone number"
+                            required />
+                        <small class="form-text text-muted">Ensure your email and phone number are valid. This is how we
+                            will confirm your details, contact you, and provide updates.</small>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>Dietary Restrictions (optional)</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group"></div>
+                    <input type="text" name="personnel_allergy" class="form-control"
+                        placeholder="Dietary Restrictions" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <strong>Are you a voting delegate?</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-check">
+                        <input type="radio" name="is_delegate" id="is_delegate" value="Yes"
+                            class="form-check-input" /><label for="is_delegate" class="form-check-label">Yes</label>
+                        <input type="radio" name="is_delegate" id="is_not_delegate" value="No"
+                            class="form-check-input" /><label for="is_not_delegate" class="form-check-label">No</label>
+                        <br /><small class="form-text text-muted">Officers are not voting delegates. There is only
+                            allowed to
+                            be ONE voting delegate per branch. This is the Branch President. If you are the proxy voting
+                            on behalf of the Branch President, choose "Yes". If you're unsure, select "No".</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <strong>What is your position for voting purposes</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <select id="delegate_position" name="delegate_position" class="form-control" required>
+                            <option value="branch_president">Branch President</option>
+                            <option value="bcmd_exec">BCMD Executive</option>
+                            <option value="branch_proxy">Proxy for Branch President</option>
+                            <option value="non_voting">I am not a voting member or proxy</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- Add more delegates -->
+                <div class="form-group row" id="add_new_participant_button">
+                    <div class="col-sm-4">
+                        <button type="button" id="insert" value="Add another participant" class="btn"
+                            onclick="add_delegate_form_click()">Add another participant</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-row hide">
+                <input type="text" name="uuid" id="uuid" />
+                <input type="text" name="submitted_date" id="submitted_date" />
+            </div>
+            <div class="row">
+                <h2>Final steps...</h2>
+            </div>
+            <!-- Additional Comments -->
+            <div class="row">
+                <div class="form-row">
+                    <div class="col-sm-4">
+                        <strong>Any additional comments you would like to add?</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        <textarea id="additional_comments" placeholder="Additional Comments (optional)"
+                            class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start of Price Table -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h3>Costs:</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3>Before Cut Off (Sept 11, 2023)</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <h3>After Cut Off (Sept 11, 2023)</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Voting Delegate / Branch President</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <em>Included in Assessment Fee</em>
+                    </div>
+                    <div class="col-sm-4">
+                        <em>Included in Assessment Fee</em>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Non-Voting Member</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        $200
+                    </div>
+                    <div class="col-sm-4">
+                        $225
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Meals Only (no meeting participation)</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        $185
+                    </div>
+                    <div class="col-sm-4">
+                        $195
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Awards Dinner Only</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        $75
+                    </div>
+                    <div class="col-sm-4">
+                        $80
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>Early Registration Rates apply on or before September 11th 2023 when the registration form is
+                            completed and the cheque has been received.</p>
+                        <p>Please make cheques payable to <strong>Navy League of Canada BC Mainland Division</strong>.
+                            Please include your Branch Name and "AGM" in the Memo field.</p>
+                        <p>Mail your cheques to:</p>
+                        <p>&nbsp;&nbsp;Bev Lovell <br />
+                            &nbsp;&nbsp;President - BC Mainland Division <br />
+                            &nbsp;&nbsp;PO Box 24024 <br />
+                            &nbsp;&nbsp;Stn RPO Town Centre <br />
+                            &nbsp;&nbsp;Kelowna, BC <br />
+                            &nbsp;&nbsp;V1Y 9H2</p>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Price Table -->
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <!-- Total amount payable and Submit button -->
+                    <button type="button" name="calculate" value="Calculate costs" onclick="count_types_of_people()"
+                        class="btn">Calculate</button>
+                </div>
+                <div class="col-sm-5">
+                    <strong>Total amount due: $</strong><input type="text" id="amount_payable" class="form-control" />
+                </div>
+                <div class="col-sm-5">
+                    <strong>Total people: </strong><input type="text" id="people_count" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="submit" value="Submit Registration" class="btn btn-primary" />
+                </div>
+                <div class="col-sm-6">
+                    <input type="reset" value="Reset Form" class="btn btn-light" />
+                </div>
+            </div>
+    </div>
+    </div>
+    </div>
+    </form>
+    </div>
+</body>
+
+</html>
