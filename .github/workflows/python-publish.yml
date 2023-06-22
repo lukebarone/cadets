@@ -27,3 +27,7 @@ jobs:
         touch /var/cadets/bc9_online/get_bc9.log; \
         chown www-data:www-data /var/cadets/bc9_online/get_bc9.log;"
         scp -o StrictHostKeyChecking=no -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/
+    - name: Publish AGM
+      run: |
+        cp -f /var/cadets/agm/registration.html /var/www/html/agm.bcmainland.ca/
+        cp -f /var/cadets/agm/index.html /var/www/html/agm.bcmainland.ca/
