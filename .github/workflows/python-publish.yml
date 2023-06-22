@@ -25,7 +25,9 @@ jobs:
         python3 -m pip install -r /var/cadets/bc9_online/requirements.txt; \
         chown -R www-data:www-data /var/cadets/bc9_online/bc9_outputs; \
         touch /var/cadets/bc9_online/get_bc9.log; \
-        chown www-data:www-data /var/cadets/bc9_online/get_bc9.log;"
+        chown www-data:www-data /var/cadets/bc9_online/get_bc9.log; \
+        systemctl stop emporor.uwsgi.service; \
+        systemctl start emporor.uwsgi.service"
         scp -o StrictHostKeyChecking=no -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/
     - name: Publish AGM
       run: |
