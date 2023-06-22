@@ -9,7 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
         .boxed {
-            border: 1px solid green;
+            border: 3px solid darkblue;
             margin-top: 10px;
             padding: 5px;
             height: 150px;
@@ -18,12 +18,9 @@
         .boxed em {
             color: black;
         }
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
+        body {
+            /* Allow the footer to not overlap */
+            margin-bottom: 60px;
         }
     </style>
 </head>
@@ -70,10 +67,14 @@
                 </a>
             </div>
         </div>
-    </div>
 
-    <!-- Footer starts here -->
-    <p class="footer">Last Updated: 22-Jun-2023. &copy; Navy League of Canada, British Columbia Mainland Division</p>
+        <!-- Footer starts here -->
+        <div class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <p>Last Updated: 22-Jun-2023. &copy; Navy League of Canada, British Columbia Mainland Division</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
