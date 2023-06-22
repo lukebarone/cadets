@@ -1,18 +1,79 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8" />
     <title>BCMD AGM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .boxed {
+            border: 1px solid green;
+            margin-top: 10px;
+            padding: 5px;
+            height: 150px;
+        }
+
+        .boxed em {
+            color: black;
+        }
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>BCMD AGM Resource Page</h1>
-    <i><a href="https://agm.bcmainland.ca">AGM Homepage</a> | <a href="mailto:agm@bcmainland.ca">Contact Email</a></i>
-    <hr width="65%" align="center" />
-    <a href="/registration.html">Register for the AGM</a> | <a href="agm-package-2023.pdf">AGM Info Package</a> (not available yet)
+    <div class="container">
+        <div class="jumbotron">
+            <h1>BCMD AGM Resource Page</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="/registration.html">
+                    <div class="boxed">
+                        <h2>Register for the AGM</h2>
+                        <em>Everyone needs to register to attend.</em>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a href="agm-package-2023.pdf">
+                    <div class="boxed">
+                        <h2>AGM Info Package (not available yet)</h2>
+                        <em>Will contain branch reports, BCMD reports, the schedule, and the yearly assessment
+                            fees.</em>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a href="https://goo.gl/maps/grhrqsc6xBCfopZe9" target="_blank">
+                    <div class="boxed">
+                        <h2>Map to Eldorado</h2>
+                        <em>3762 Lakeshort Rd, Kelowna, BC V1W 3L4</em>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="mailto:agm@bcmainland.ca">
+                    <div class="boxed">
+                        <h2>Contact Us</h2>
+                        <em>Someone will get back to you soon!</em>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer starts here -->
-    <hr width="65%" />
-    <i><a href="https://agm.bcmainland.ca">AGM Homepage</a> | <a href="mailto:agm@bcmainland.ca">Contact Email</a></i> <br />
-    Last Updated: 12-Jun-2023
+    <p class="footer">Last Updated: 22-Jun-2023. &copy; Navy League of Canada, British Columbia Mainland Division</p>
 </body>
+
 </html>
