@@ -79,7 +79,7 @@ def send_slack_notification(data: dict) -> bool:
         response = client.files_upload(channels="#bcmd-agm-planning",
                                        file=filepath)
         assert response["file"]
-        client.chat_postMessage(channel="#agm-planning",
+        client.chat_postMessage(channel="#bcmd-agm-planning",
                                 text=message_text)
     except SlackApiError as error:
         assert error.response["ok"] is False

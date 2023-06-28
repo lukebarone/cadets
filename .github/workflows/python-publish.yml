@@ -16,9 +16,9 @@ jobs:
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
         "mkdir -p /root/bc9_outputs/; \
         mkdir -p /root/agm_outputs/; \
-        cp /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/; \
-        cp /var/cadets/agm/agm_registrations/*.json /root/agm_outputs/; \
-        cp /var/cadets/agm/registrations.csv /root/;"
+        [ -f /var/cadets/bc9_online/bc9_outputs/*.json ] && cp /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/; \
+        [ -f /var/cadets/agm/agm_outputs/*.json ] && cp /var/cadets/agm/agm_outputs/*.json /root/agm_outputs/; \
+        [ -f /var/cadets/agm/registrations.csv ] && cp /var/cadets/agm/registrations.csv /root/;"
     - name: Publish BC9
       run: |
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
@@ -41,7 +41,8 @@ jobs:
         "python3 -m pip install -r /var/cadets/agm/requirements.txt; \
         chown -R www-data:www-data /var/cadets/agm/agm_outputs/; \
         touch /var/cadets/agm/agm.log; \
-        chown www-data:www-data /var/cadets/agm/agm.log"
+        chown www-data:www-data /var/cadets/agm/agm.log; \
+        cp -f /var/cadets/uwsgi/vassals/agm.ini /etc/uwsgi/vassals/"
     - name: Restore registrations
       run: |
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
@@ -50,7 +51,7 @@ jobs:
         "mkdir -p /var/cadets/bc9_online/bc9_outputs/; \
         mkdir -p /var/cadets/agm/agm_outputs/; \
         cp /root/bc9_outputs/*.json /var/cadets/bc9_online/bc9_outputs/; \
-        cp /root/agm_registrations/*.json /var/cadets/agm/agm_outputs/; \
+        cp /root/agm_outputs/*.json /var/cadets/agm/agm_outputs/; \
         cp /root/registrations.csv /var/cadets/agm/;"
     - name: Restore environment
       env:
