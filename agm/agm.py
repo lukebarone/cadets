@@ -76,8 +76,8 @@ An automated bot for your convenience.
 def send_slack_notification(data: dict) -> bool:
     """Send a Slack notification to #agm-planning"""
     client = WebClient(SLACK_API_KEY)
-    message_text = f"""New AGM Registration: {data['participant_name']} from
-        {data['branch_name']}"""
+    message_text = f"""**New AGM Registration**: `{data['participant_name']}` from
+`{data['branch_name']}`"""
     try:
         # filepath = os.path.join(os.path.relpath("agm_outputs"),
         #                         data.get("uuid") + ".json")
