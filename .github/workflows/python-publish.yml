@@ -29,10 +29,7 @@ jobs:
         python3 -m pip install -r /var/cadets/bc9_online/requirements.txt; \
         chown -R www-data:www-data /var/cadets/bc9_online/bc9_outputs; \
         touch /var/cadets/bc9_online/get_bc9.log; \
-        chown www-data:www-data /var/cadets/bc9_online/get_bc9.log; \
-        systemctl is-active --quiet emperor.uwsgi.service && systemctl stop emperor.uwsgi.service; \
-        systemctl start emperor.uwsgi.service"
-        scp -o StrictHostKeyChecking=no -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/
+        chown www-data:www-data /var/cadets/bc9_online/get_bc9.log"
     - name: Publish AGM
       run: |
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
@@ -65,3 +62,6 @@ jobs:
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
         chmod 0600 /tmp/ssh-key
         scp -o StrictHostKeyChecking=no -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/
+        ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca " \
+        systemctl is-active --quiet emperor.uwsgi.service && systemctl stop emperor.uwsgi.service; \
+        systemctl start emperor.uwsgi.service"
