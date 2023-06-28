@@ -35,4 +35,3 @@ def send_mail(email_body: str, to_address: str = RECEIVER_EMAIL,
 
 if __name__ == "__main__":
     print("Script not made to be called directly. Import then use the send_mail function.")
-    send_mail("I am a test message")

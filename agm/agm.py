@@ -29,8 +29,9 @@ def create_file(data: dict) -> bool:
     try:
         with open(filename, "w", encoding='utf-8') as output_file_handle:
             json.dump(data, output_file_handle)
-        logging.info("Wrote file %s", filename)
+        logging.info("%s - Wrote file %s", data['uuid'], filename)
     except IOError:
+        logging.warning("%s - Failed to write individual file", data['uuid'])
         return False
     return True
 
@@ -48,7 +49,9 @@ def add_to_csv_file(data: dict) -> bool:
             if not file_exists:
                 writer.writeheader()
             writer.writerows(data)
+            logging.info("%s - Added to CSV file", data['uuid'])
     except IOError:
+        logging.warning("%s - error adding to CSV file", data['uuid'])
         return False
     return True
 
@@ -58,14 +61,15 @@ def send_email_to_agm_group(data: dict) -> bool:
     email_to = "agm@bcmainland.ca"
     email_subject = f"New AGM Registration from {data['branch_name']}"
     email_body = f"""We got a new AGM Registration!
-    ---
-    {str(data)}
+---
+{str(data)}
 
-    Sincerely,
+Sincerely,
 
-    An automated bot for your convenience.
+An automated bot for your convenience.
     """
     send_mail(email_body, email_to, email_subject)
+    logging.info("%s - AGM email sent", data['uuid'])
 
 
 def send_slack_notification(data: dict) -> bool:
@@ -84,7 +88,9 @@ def send_slack_notification(data: dict) -> bool:
     except SlackApiError as error:
         assert error.response["ok"] is False
         assert error.response["error"]
+        logging.warning("%s - Slack notification failed", data['uuid'])
         return False
+    logging.info("%s - Slack notification sent", data['uuid'])
     return True
 
 
@@ -93,16 +99,17 @@ def send_confirmation_email(data: dict) -> bool:
     email_to = data['participant_email']
     email_subject = f"BCMD AGM Registration from {data['branch_name']}"
     email_body = f"""We received your recent AGM Registration!
-    ---
-    {str(data)}
+---
+{str(data)}
 
-    Note: If you asked us to book your hotel room, we will attempt to complete it within 72 hours. If you do not hear from us by then, please reply to this email.
+Note: If you asked us to book your hotel room, we will attempt to complete it within 72 hours. If you do not hear from us by then, please reply to this email (it should reply to agm@bcmainland.ca).
 
-    Sincerely,
+Sincerely,
 
-    An automated bot for your convenience.
+An automated bot for your convenience.
     """
     send_mail(email_body, email_to, email_subject)
+    logging.info("%s - Confirmation email sent", data['uuid'])
 
 
 app = Flask(__name__)
@@ -142,8 +149,8 @@ def submitted_form():
             people.append(extra_person)
     create_file(data)
     add_to_csv_file(data)
-#   send_email_to_agm_group(data)
-#   send_slack_notification(data)
+    send_slack_notification(data)
+    send_email_to_agm_group(data)
     send_confirmation_email(data)
     return render_template('response.html', form=request.form, people=people)
 
