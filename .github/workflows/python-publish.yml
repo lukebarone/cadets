@@ -39,7 +39,8 @@ jobs:
         mkdir -p /var/cadets/agm/agm_outputs; \
         chown -R www-data:www-data /var/cadets/agm/agm_outputs/; \
         touch /var/cadets/agm/agm.log; \
-        chown www-data:www-data /var/cadets/agm/agm.log; \
+        touch /var/cadets/agm/registrations.csv; \
+        chown www-data:www-data /var/cadets/agm/agm.log /var/cadets/agm/registrations.csv; \
         cp -f /var/cadets/uwsgi/vassals/agm.ini /etc/uwsgi/vassals/"
     - name: Restore registrations
       run: |
@@ -50,7 +51,9 @@ jobs:
         mkdir -p /var/cadets/agm/agm_outputs/; \
         cp /root/bc9_outputs/*.json /var/cadets/bc9_online/bc9_outputs/ || echo 'No BC9 Outputs to restore' ; \
         cp /root/agm_outputs/*.json /var/cadets/agm/agm_outputs/ || echo 'No AGM outputs to restore' ; \
-        cp /root/registrations.csv /var/cadets/agm/ || echo 'No AGM Registration Table to restore' ;"
+        cp /root/registrations.csv /var/cadets/agm/ || echo 'No AGM Registration Table to restore' ; \
+        chown -R www-data:www-data /var/cadets/agm/agm_outputs/; \
+        chown -R www-data:www-data /var/cadets/bc9_online/bc9_outputs/;"
     - name: Restore environment
       env:
         NOREPLY_APP_PASSWORD: ${{ secrets.NOREPLY_APP_PASSWORD }}
