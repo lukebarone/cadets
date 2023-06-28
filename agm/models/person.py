@@ -1,3 +1,4 @@
+"""Person object for AGM registration purposes."""
 class Person:
     """Sets up for a person with their details."""
     def __init__(self, name, position, participant_type, allergies=None):

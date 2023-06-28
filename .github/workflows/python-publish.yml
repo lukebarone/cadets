@@ -9,19 +9,25 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+    - name: Backup current registrations
+      run: |
+        echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
+        chmod 0600 /tmp/ssh-key
+        ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
+        "mkdir -p /root/bc9_outputs/; \
+        mkdir -p /root/agm_outputs/; \
+        cp /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/; \
+        cp /var/cadets/agm/agm_registrations/*.json /root/agm_outputs/; \
+        cp /var/cadets/agm/registrations.csv /root/;"
     - name: Publish BC9
       env:
         BC9_APP_PASSWORD: ${{ secrets.BC9_APP_PASSWORD }}
       run: |
-        echo "BC9_APP_PASSWORD=${{ secrets.BC9_APP_PASSWORD }}" > .env
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
         chmod 0600 /tmp/ssh-key
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca "cd /var; \
-        mkdir -p /root/bc9_outputs/; \
-        mv /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/; \
         rm -rf /var/cadets; \
         git clone --depth 1 https://github.com/lukebarone/cadets; \
-        cp /root/bc9_outputs/*.json /var/cadets/bc9_online/bc9_outputs/; \
         python3 -m pip install -r /var/cadets/bc9_online/requirements.txt; \
         chown -R www-data:www-data /var/cadets/bc9_online/bc9_outputs; \
         touch /var/cadets/bc9_online/get_bc9.log; \
@@ -30,9 +36,36 @@ jobs:
         systemctl start emperor.uwsgi.service"
         scp -o StrictHostKeyChecking=no -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/
     - name: Publish AGM
+      env:
+        AGM_G_APPS_PASSWORD: ${{ secrets.AGM_G_APPS_PASSWORD }}
+        SLACK_API_KEY: ${{ secrets.SLACK_API_KEY }}
       run: |
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
         chmod 0600 /tmp/ssh-key
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
-        "cp -f /var/cadets/agm/registration.html /var/www/html/agm.bcmainland.ca/; \
-        cp -f /var/cadets/agm/index.html /var/www/html/agm.bcmainland.ca/"
+        "python3 -m pip install -r /var/cadets/agm/requirements.txt; \
+        chown -R www-data:www-data /var/cadets/agm/agm_outputs/; \
+        touch /var/cadets/agm/agm.log; \
+        chown www-data:www-data /var/cadets/agm/agm.log"
+    - name: Restore registrations
+      run: |
+        echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
+        chmod 0600 /tmp/ssh-key
+        ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
+        "mkdir -p /var/cadets/bc9_online/bc9_outputs/; \
+        mkdir -p /var/cadets/agm/agm_outputs/; \
+        cp /root/bc9_outputs/*.json /var/cadets/bc9_online/bc9_outputs/; \
+        cp /root/agm_registrations/*.json /var/cadets/agm/agm_outputs/; \
+        cp /root/registrations.csv /var/cadets/agm/;"
+    - name: Restore environment
+      env:
+        AGM_G_APPS_PASSWORD: ${{ secrets.AGM_G_APPS_PASSWORD }}
+        SLACK_API_KEY: ${{ secrets.SLACK_API_KEY }}
+        BC9_APP_PASSWORD: ${{ secrets.BC9_APP_PASSWORD }}
+      run: |
+        echo "BC9_APP_PASSWORD=${{ secrets.BC9_APP_PASSWORD }}" > .env
+        echo "AGM_G_APPS_PASSWORD=${{ secrets.AGM_G_APPS_PASSWORD }}" >> .env
+        echo "SLACK_API_KEY=${{ secrets.SLACK_API_KEY }}" >> .env
+        echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
+        chmod 0600 /tmp/ssh-key
+        scp -o StrictHostKeyChecking=no -i /tmp/ssh-key .env root@server.talk-about-it.ca:/var/cadets/

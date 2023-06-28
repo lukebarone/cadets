@@ -4,3 +4,4 @@ Jinja2==2.10.1
 python-dotenv==0.20.0
 WTForms==3.0.1
 itsdangerous==2.0.1
+slack_sdk==3.21.3
