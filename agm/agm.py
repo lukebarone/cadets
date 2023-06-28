@@ -142,10 +142,9 @@ def submitted_form():
             people.append(extra_person)
     create_file(data)
     add_to_csv_file(data)
-#   email_to_send = read_responses.entry_point(data['uuid'])
 #   send_email_to_agm_group(data)
 #   send_slack_notification(data)
-#   send_confirmation_email(data)
+    send_confirmation_email(data)
     return render_template('response.html', form=request.form, people=people)
 
 @app.route('/images/BCMD_Crest.png', methods=['GET'])
