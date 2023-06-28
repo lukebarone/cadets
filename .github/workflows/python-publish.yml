@@ -36,6 +36,7 @@ jobs:
         chmod 0600 /tmp/ssh-key
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
         "python3 -m pip install -r /var/cadets/agm/requirements.txt; \
+        mkdir -p /var/cadets/agm/agm_outputs; \
         chown -R www-data:www-data /var/cadets/agm/agm_outputs/; \
         touch /var/cadets/agm/agm.log; \
         chown www-data:www-data /var/cadets/agm/agm.log; \
@@ -47,9 +48,9 @@ jobs:
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
         "mkdir -p /var/cadets/bc9_online/bc9_outputs/; \
         mkdir -p /var/cadets/agm/agm_outputs/; \
-        cp /root/bc9_outputs/*.json /var/cadets/bc9_online/bc9_outputs/; \
-        cp /root/agm_outputs/*.json /var/cadets/agm/agm_outputs/; \
-        cp /root/registrations.csv /var/cadets/agm/;"
+        cp /root/bc9_outputs/*.json /var/cadets/bc9_online/bc9_outputs/ || echo 'No BC9 Outputs to restore' ; \
+        cp /root/agm_outputs/*.json /var/cadets/agm/agm_outputs/ || echo 'No AGM outputs to restore' ; \
+        cp /root/registrations.csv /var/cadets/agm/ || echo 'No AGM Registration Table to restore' ;"
     - name: Restore environment
       env:
         AGM_G_APPS_PASSWORD: ${{ secrets.NOREPLY_APP_PASSWORD }}
