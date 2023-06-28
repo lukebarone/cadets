@@ -16,9 +16,9 @@ jobs:
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
         "mkdir -p /root/bc9_outputs/; \
         mkdir -p /root/agm_outputs/; \
-        [ -f /var/cadets/bc9_online/bc9_outputs/*.json ] && cp /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/; \
-        [ -f /var/cadets/agm/agm_outputs/*.json ] && cp /var/cadets/agm/agm_outputs/*.json /root/agm_outputs/; \
-        [ -f /var/cadets/agm/registrations.csv ] && cp /var/cadets/agm/registrations.csv /root/;"
+        cp /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/ || echo 'No BC9 outputs found' ; \
+        cp /var/cadets/agm/agm_outputs/*.json /root/agm_outputs/ || echo 'No AGM outputs exist' ; \
+        cp /var/cadets/agm/registrations.csv /root/ || echo 'No AGM registration table exists' ;"
     - name: Publish BC9
       run: |
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
