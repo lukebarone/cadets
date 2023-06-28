@@ -20,6 +20,7 @@ LOGGING_PATH = "agm.log"
 LOGGING_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOGGING_LEVEL, filename=LOGGING_PATH)
 SLACK_API_KEY = os.environ.get('SLACK_API_KEY')
+SLACK_ROOM_ID = os.environ.get('SLACK_ROOM_ID')
 
 
 def create_file(data: dict) -> bool:
@@ -78,12 +79,12 @@ def send_slack_notification(data: dict) -> bool:
     message_text = f"""New AGM Registration: {data['participant_name']} from
         {data['branch_name']}"""
     try:
-        filepath = os.path.join(os.path.relpath("agm_registrations"),
-                                data.get("uuid") + ".json")
-        response = client.files_upload(channels="#bcmd-agm-planning",
-                                       file=filepath)
-        assert response["file"]
-        client.chat_postMessage(channel="#bcmd-agm-planning",
+        # filepath = os.path.join(os.path.relpath("agm_outputs"),
+        #                         data.get("uuid") + ".json")
+        # response = client.files_upload(channels="#bcmd-agm-planning",
+        #                                file=filepath)
+        # assert response["file"]
+        client.chat_postMessage(channel=SLACK_ROOM_ID,
                                 text=message_text)
     except SlackApiError as error:
         assert error.response["ok"] is False
