@@ -70,7 +70,7 @@
             <h2>Costs and billings</h2>
             <div class="col-sm-12">
                 <p>Your AGM registration fees come to a total of <strong>${{ form.amount_payable }}</strong>.</p>
-                {% if form.amount_payable > 0 %}
+                {% if form.amount_payable is defined %}
                 <p>Early Registration Rates apply on or before September 11th 2023 when the registration form is
                     completed and the cheque has been received.</p>
                 <p>Please make cheques payable to <strong>Navy League of Canada BC Mainland Division</strong>.
