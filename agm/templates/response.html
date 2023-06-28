@@ -57,9 +57,9 @@
             <h2>Booking Info</h2>
             <div class="col-sm-12">
                 <p>Do you want BCMD to book your rooms?
-                <pre>{{ form.should_book }}</pre>
+                <pre>{{ form.book_hotel }}</pre>
                 </p>
-                {% if form.should_book == "Yes" %}
+                {% if form.book_hotel == "Yes" %}
                 <p>Are you OK with sharing a room to save costs?
                 <pre>{{ form.share_room }}</pre>
                 </p>
@@ -69,8 +69,8 @@
         <div class="row">
             <h2>Costs and billings</h2>
             <div class="col-sm-12">
-                <p>Your AGM registration fees come to a total of <strong>${{ form.amount_payable }}</strong>.</p>
                 {% if form.amount_payable is defined %}
+                <p>Your AGM registration fees come to a total of <strong>${{ form.amount_payable }}</strong>.</p>
                 <p>Early Registration Rates apply on or before September 11th 2023 when the registration form is
                     completed and the cheque has been received.</p>
                 <p>Please make cheques payable to <strong>Navy League of Canada BC Mainland Division</strong>.
@@ -82,6 +82,8 @@
                     &nbsp;&nbsp;Stn RPO Town Centre <br />
                     &nbsp;&nbsp;Kelowna, BC <br />
                     &nbsp;&nbsp;V1Y 9H2</p>
+                {% else %}
+                    <p>You reportedly do not have fees to pay for the AGM! Hoorah!</p>
                 {% endif %}
             </div>
         </div>
