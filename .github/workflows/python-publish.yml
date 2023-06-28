@@ -53,7 +53,7 @@ jobs:
         cp /root/registrations.csv /var/cadets/agm/ || echo 'No AGM Registration Table to restore' ;"
     - name: Restore environment
       env:
-        AGM_G_APPS_PASSWORD: ${{ secrets.NOREPLY_APP_PASSWORD }}
+        NOREPLY_APP_PASSWORD: ${{ secrets.NOREPLY_APP_PASSWORD }}
         SLACK_API_KEY: ${{ secrets.SLACK_API_KEY }}
         BC9_APP_PASSWORD: ${{ secrets.BC9_APP_PASSWORD }}
       run: |
