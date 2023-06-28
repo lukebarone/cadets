@@ -38,17 +38,17 @@ def create_file(data: dict) -> bool:
 
 def add_to_csv_file(data: dict) -> bool:
     """Add the data to the spreadsheet"""
-    fieldnames = ['branch_name', 'participant_email', 'participant_phone',
-                  'uuid', 'submitted_date', 'additional_comments',
-                  'book_hotel', 'share_room', 'people_count', 'amount_payable']
+    # fieldnames = ['branch_name', 'participant_email', 'participant_phone',
+    #               'uuid', 'submitted_date', 'additional_comments',
+    #               'book_hotel', 'share_room', 'people_count', 'amount_payable']
     file_exists = os.path.exists('registrations.csv')
     file_write_mode = 'w' if not file_exists else 'a'
     try:
         with open('registrations.csv', file_write_mode, encoding='UTF8', newline='') as _:
-            writer = csv.DictWriter(_, fieldnames=fieldnames)
+            writer = csv.DictWriter(_, fieldnames=data.keys())
             if not file_exists:
                 writer.writeheader()
-            writer.writerows(data)
+            writer.writerow(data)
             logging.info("%s - Added to CSV file", data['uuid'])
     except IOError:
         logging.warning("%s - error adding to CSV file", data['uuid'])
