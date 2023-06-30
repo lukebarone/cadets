@@ -9,8 +9,8 @@ import csv
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from flask import Flask, render_template, request, send_file
-from models.person import Person
-from functions.mail import send_mail
+from agm.models.person import Person
+import agm.functions
 
 
 ERROR_BLANK_FORM = "Blank form detected. Aborting."
@@ -21,6 +21,10 @@ LOGGING_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOGGING_LEVEL, filename=LOGGING_PATH)
 SLACK_API_KEY = os.environ.get('SLACK_API_KEY')
 SLACK_ROOM_ID = os.environ.get('SLACK_ROOM_ID')
+BRANCH_LIST = ["aldergrove", "ashcroft", "burnaby", "chilcotin", "chilliwack",
+"gibsons", "vancouver", "haidagwaii", "kamloops", "kelowna", "mapleridge",
+"nelson", "newwestminster", "nwvancouver", "pocomo", "princegeorge",
+"princerupert", "richmond", "smithers", "surrey", "vernon"]
 
 
 def create_file(data: dict) -> bool:
@@ -39,9 +43,6 @@ def create_file(data: dict) -> bool:
 
 def add_to_csv_file(data: dict) -> bool:
     """Add the data to the spreadsheet"""
-    # fieldnames = ['branch_name', 'participant_email', 'participant_phone',
-    #               'uuid', 'submitted_date', 'additional_comments',
-    #               'book_hotel', 'share_room', 'people_count', 'amount_payable']
     file_exists = os.path.exists('registrations.csv')
     file_write_mode = 'w' if not file_exists else 'a'
     try:
@@ -69,21 +70,21 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    send_mail(email_body, email_to, email_subject)
+    agm.functions.mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - AGM email sent", data['uuid'])
 
 
 def send_slack_notification(data: dict) -> bool:
     """Send a Slack notification to #agm-planning"""
     client = WebClient(SLACK_API_KEY)
-    message_text = f"""**New AGM Registration**: `{data['participant_name']}` from
+    message_text = f"""*New AGM Registration*: `{data['participant_name']}` from
 `{data['branch_name']}`"""
     try:
-        # filepath = os.path.join(os.path.relpath("agm_outputs"),
-        #                         data.get("uuid") + ".json")
-        # response = client.files_upload(channels="#bcmd-agm-planning",
-        #                                file=filepath)
-        # assert response["file"]
+        filepath = os.path.join(os.path.relpath("agm_outputs"),
+                                data.get("uuid") + ".json")
+        response = client.files_upload(channels="#bcmd-agm-planning",
+                                       file=filepath)
+        assert response["file"]
         client.chat_postMessage(channel=SLACK_ROOM_ID,
                                 text=message_text)
     except SlackApiError as error:
@@ -109,8 +110,35 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    send_mail(email_body, email_to, email_subject)
+    agm.functions.mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - Confirmation email sent", data['uuid'])
+
+
+def send_branch_confirmation_email(data: dict) -> bool:
+    """Send a confirmation email to the local branch"""
+    value_found = data.get('branch_name')
+    if not value_found in BRANCH_LIST:
+        logging.warning("Not found - got %s", data['branch_name'])
+        return False
+    message = f"""
+Hi {data['branch_name']}'s Branch President,
+
+Someone has registered for the BC Mainland Division Annual General Meeting from
+your branch. Please confirm the details below, and email us if this is not an
+authorized action:
+
+{agm.functions.convert_dictionary.convert_for_email(data)}
+
+If you authorized this action, then no other action needs to be taken on your
+behalf. We will assume it's an authorized request unless we hear from you.
+
+Sincerely,
+
+An automated bot for your convenience."""
+    agm.functions.mail.send_mail(message,
+                                 f"{data['branch_name']}@bcmainland.ca",
+                                 "Branch AGM Registration Info received")
+    return True
 
 
 app = Flask(__name__)
@@ -153,6 +181,7 @@ def submitted_form():
     send_slack_notification(data)
     send_email_to_agm_group(data)
     send_confirmation_email(data)
+    send_branch_confirmation_email(data)
     return render_template('response.html', form=request.form, people=people)
 
 @app.route('/images/BCMD_Crest.png', methods=['GET'])
