@@ -9,8 +9,8 @@ import csv
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from flask import Flask, render_template, request, send_file
-from agm.models.person import Person
-import agm.functions
+from models.person import Person
+import functions
 
 
 ERROR_BLANK_FORM = "Blank form detected. Aborting."
