@@ -155,6 +155,12 @@ def show_registration():
     return send_file("registration.html")
 
 
+@app.route('/kitlist.html', methods=['GET'])
+def show_kitlist():
+    """Loads the static Kitlist page"""
+    return send_file("kitlist.html")
+
+
 @app.route('/submit', methods=['POST'])
 def submitted_form():
     """Accepts input for the registration form, passes to template"""
