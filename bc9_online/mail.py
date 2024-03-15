@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 SMTP_PORT = 587
 SMTP_SERVER = "smtp.gmail.com"
 SENDER_EMAIL = "bc9@bcmainland.ca"
-RECEIVER_EMAIL = "lbarone+bc9@bcmainland.ca"
+RECEIVER_EMAIL = "bcmd-executive@bcmainland.ca"
 load_dotenv("/var/cadets/.env")
 PASSWORD = os.environ['BC9_APP_PASSWORD']
 SUBJECT = "BC9 Submission"
