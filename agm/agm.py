@@ -26,6 +26,7 @@ BRANCH_LIST = ["aldergrove", "ashcroft", "burnaby", "chilcotin", "chilliwack",
 "gibsons", "vancouver", "haidagwaii", "kamloops", "kelowna", "mapleridge",
 "nelson", "newwestminster", "nwvancouver", "pocomo", "princegeorge",
 "princerupert", "richmond", "smithers", "surrey", "vernon"]
+NO_BRANCH_EMAIL_LIST = ["bcmd", "rcsu", "national"]
 
 
 def create_file(data: dict) -> bool:
@@ -118,6 +119,9 @@ An automated bot for your convenience.
 def send_branch_confirmation_email(data: dict) -> bool:
     """Send a confirmation email to the local branch"""
     value_found = data.get('branch_name')
+    if value_found in NO_BRANCH_EMAIL_LIST:
+        logging.info("Branch is not a Branch")
+        return True
     if not value_found in BRANCH_LIST:
         logging.warning("Not found - got %s", data['branch_name'])
         return False
@@ -185,7 +189,7 @@ def submitted_form():
             people.append(extra_person)
     create_file(data)
     add_to_csv_file(data)
-    send_slack_notification(data)
+    # send_slack_notification(data)
     send_email_to_agm_group(data)
     send_confirmation_email(data)
     send_branch_confirmation_email(data)
