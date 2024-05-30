@@ -72,7 +72,7 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    send_mail(email_body, email_to, email_subject)
+    mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - AGM email sent", data['uuid'])
 
 
