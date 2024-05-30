@@ -11,7 +11,7 @@ from slack_sdk.errors import SlackApiError
 from flask import Flask, render_template, request, send_file
 # Add "agm." in front of these imports when developing
 from models.person import Person
-import functions
+from agm import functions
 
 
 ERROR_BLANK_FORM = "Blank form detected. Aborting."
@@ -62,7 +62,6 @@ def add_to_csv_file(data: dict) -> bool:
 
 def send_email_to_agm_group(data: dict) -> bool:
     """Send an email to the AGM group with the registration info"""
-    logging.info("%s - Entering SendEmailToAGMGroup", data['uuid'])
     email_to = "agm@bcmainland.ca"
     email_subject = f"New AGM Registration from {data['branch_name']}"
     email_body = f"""We got a new AGM Registration!
@@ -73,7 +72,7 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    mail.send_mail(email_body, email_to, email_subject)
+    functions.mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - AGM email sent", data['uuid'])
 
 
