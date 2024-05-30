@@ -181,7 +181,7 @@ def submitted_form():
     people = [primary_name]
     for i in range(100):
         index = str(i)
-        if str(request.form.getlist('additional_personnel[' + index + ']')) != "[]":
+        if str(request.form.getlist('personnel_name_' + index)) != "[]":
             extra_person = Person(data['personnel_name_' + index],
                                   data['personnel_position_' + index],
                                   "No",
