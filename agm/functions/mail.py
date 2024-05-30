@@ -30,7 +30,7 @@ def send_mail(email_body: str, to_address: str = RECEIVER_EMAIL,
     msg['From'] = NOREPLY_EMAIL
     msg['Reply-To'] = SENDER_EMAIL
     msg['To'] = to_address
-    with smtplib.SMTL_SSL(SMTP_SERVER, SMTP_PORT) as smtp_server:
+    with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as smtp_server:
         smtp_server.login(NOREPLY_EMAIL, PASSWORD)
         smtp_server.sendmail(NOREPLY_EMAIL, to_address, msg.as_string())
     # connection = SMTP(host=SMTP_SERVER, port=SMTP_PORT)
