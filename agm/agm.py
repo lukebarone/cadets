@@ -112,7 +112,7 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    functions.mail.send_mail(email_body, email_to, email_subject)
+    mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - Confirmation email sent", data['uuid'])
 
 
@@ -140,7 +140,7 @@ behalf. We will assume it's an authorized request unless we hear from you.
 Sincerely,
 
 An automated bot for your convenience."""
-    functions.mail.send_mail(message,
+    mail.send_mail(message,
                                  f"{data['branch_name']}@bcmainland.ca",
                                  "Branch AGM Registration Info received")
     return True
