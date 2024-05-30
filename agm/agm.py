@@ -62,6 +62,7 @@ def add_to_csv_file(data: dict) -> bool:
 
 def send_email_to_agm_group(data: dict) -> bool:
     """Send an email to the AGM group with the registration info"""
+    logging.info("%s - Entering SendEmailToAGMGroup", data['uuid'])
     email_to = "agm@bcmainland.ca"
     email_subject = f"New AGM Registration from {data['branch_name']}"
     email_body = f"""We got a new AGM Registration!
