@@ -73,7 +73,7 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    functions.mail.send_mail(email_body, email_to, email_subject)
+    agm.functions.mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - AGM email sent", data['uuid'])
 
 
