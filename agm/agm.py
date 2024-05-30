@@ -182,12 +182,11 @@ def submitted_form():
     for i in range(100):
         index = str(i)
         try:
-            if data['personnel_name_' + index] != "":
-                extra_person = Person(data['personnel_name_' + index],
+            extra_person = Person(data['personnel_name_' + index],
                                   data['personnel_position_' + index],
                                   "No",
                                   data['personnel_allergy_' + index])
-                people.append(extra_person)
+            people.append(extra_person)
         except KeyError:
             continue
     create_file(data)
