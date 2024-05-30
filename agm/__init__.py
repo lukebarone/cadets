@@ -1,1 +1,0 @@
-"""The mega AGM module"""
