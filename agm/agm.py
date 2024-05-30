@@ -182,7 +182,7 @@ def submitted_form():
     for i in range(100):
         index = str(i)
         try:
-            if data['personnel_name_' + index].length < 0:
+            if data['personnel_name_' + index].__len__() < 0:
                 extra_person = Person(data['personnel_name_' + index],
                                   data['personnel_position_' + index],
                                   "No",
