@@ -1,5 +1,6 @@
 """Sends an email to the specified account"""
-from smtplib import SMTP
+#from smtplib import SMTP
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
