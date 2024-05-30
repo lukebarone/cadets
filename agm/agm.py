@@ -182,12 +182,16 @@ def submitted_form():
     for i in range(100):
         index = str(i)
         try:
+            logging.info("%s - Trying index %d", data['uuid'], index)
             if data['personnel_name_' + index].__len__() > 0:
+                logging.info("%s - Len is greater than 0 %d", data['uuid'], index)
                 extra_person = Person(data['personnel_name_' + index],
                                   data['personnel_position_' + index],
                                   "No",
                                   data['personnel_allergy_' + index])
+                logging.info("%s - Created object %d", data['uuid'], index)
                 people.append(extra_person)
+                logging.info("%s - Appended %d", data['uuid'], index)
         except KeyError:
             pass
     create_file(data)
