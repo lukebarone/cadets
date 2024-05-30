@@ -11,7 +11,7 @@ from slack_sdk.errors import SlackApiError
 from flask import Flask, render_template, request, send_file
 # Add "agm." in front of these imports when developing
 from models.person import Person
-import mail
+from . import mail
 
 
 ERROR_BLANK_FORM = "Blank form detected. Aborting."
