@@ -182,14 +182,14 @@ def submitted_form():
     for i in range(100):
         index = str(i)
         try:
-            if data['personnel_name_' + index].__len__() < 0:
+            if data['personnel_name_' + index].__len__() > 0:
                 extra_person = Person(data['personnel_name_' + index],
                                   data['personnel_position_' + index],
                                   "No",
                                   data['personnel_allergy_' + index])
                 people.append(extra_person)
         except KeyError:
-            continue
+            pass
     create_file(data)
     add_to_csv_file(data)
     # send_slack_notification(data)
