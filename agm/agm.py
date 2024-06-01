@@ -187,7 +187,7 @@ def submitted_form():
         # Get index
         index = re.search(r'\d+$', key).group(0)
         people.append(Person(data['personnel_name_' + index],
-                              data['personnel_position_' + index],
+                              data['personnel_type_' + index],
                               "No",
                               data['personnel_allergy_' + index]))
     #    people.append(Person(data['personnel_name_' + index],
