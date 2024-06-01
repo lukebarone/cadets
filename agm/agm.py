@@ -190,7 +190,7 @@ def submitted_form():
                 people.append(extra_person)
         except KeyError:
             pass
-    logging.info("%s - People are: %s", data['uuid'], people)
+    logging.info("%s - People are: %s", data['uuid'], people.count())
     create_file(data)
     add_to_csv_file(data)
     # send_slack_notification(data)
