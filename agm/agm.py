@@ -182,18 +182,15 @@ def submitted_form():
     for i in range(100):
         index = str(i)
         try:
-            logging.info("%s - Trying index %s", data['uuid'], index)
             if data['personnel_name_' + index].__len__() > 0:
-                logging.info("%s - Len is greater than 0 %s", data['uuid'], index)
                 extra_person = Person(data['personnel_name_' + index],
                                   data['personnel_position_' + index],
                                   "No",
                                   data['personnel_allergy_' + index])
-                logging.info("%s - Created object %s", data['uuid'], index)
                 people.append(extra_person)
-                logging.info("%s - Appended %s", data['uuid'], index)
         except KeyError:
             pass
+    logging.info("%s - People are: %s", data['uuid'], people)
     create_file(data)
     add_to_csv_file(data)
     # send_slack_notification(data)
