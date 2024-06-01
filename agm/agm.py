@@ -187,9 +187,9 @@ def submitted_form():
         # Get index
         index = re.search(r'\d+$', key).group(0)
         people.append(Person(data['personnel_name_' + index],
-                              data['personnel_type_' + index],
-                              "No",
-                              data['personnel_allergy_' + index]))
+                             data['personnel_type_' + index],
+                             "No",
+                             data['personnel_allergy_' + index] if data['personnel_allergy_' + index] != "" else "N/A"))
     create_file(data)
     add_to_csv_file(data)
     # send_slack_notification(data)
