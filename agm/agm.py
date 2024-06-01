@@ -180,24 +180,28 @@ def submitted_form():
                           data['is_delegate'],
                           data['personnel_allergy'])
     people.append(primary_name)
-    for i in range(100):
-        index = str(i)
-        try:
-            if data['personnel_name_' + index].__len__() > 0:
-                people.append(Person(data['personnel_name_' + index],
-                              data['personnel_position_' + index],
-                              "No",
-                              data['personnel_allergy_' + index]))
-                logging.info("%s - %s | %s | %s added", data['uuid'], data['personnel_name_' + index], data['personnel_position_' + index], data['personnel_allergy_' + index])
-        except KeyError:
-            pass
-    logging.info("%s - People are: %s and %s", data['uuid'], people[0], people[1])
+    keys = request.form.keys()
+    keys = [key for key in keys if key.startswith("personnel_name_")]
+    keys = sorted(keys)
+    for key in keys:
+    #for i in range(100):
+    #    index = str(i)
+    #    try:
+    #        if data['personnel_name_' + index].__len__() > 0:
+    #    people.append(Person(data['personnel_name_' + index],
+    #                          data['personnel_position_' + index],
+    #                          "No",
+    #                          data['personnel_allergy_' + index]))
+        print(key, request.form.get(key))
+#        except KeyError:
+#            pass
+#    logging.info("%s - People are: %s and %s", data['uuid'], people[0], people[1])
     create_file(data)
     add_to_csv_file(data)
     # send_slack_notification(data)
-    send_email_to_agm_group(data)
-    send_confirmation_email(data)
-    send_branch_confirmation_email(data)
+#    send_email_to_agm_group(data)
+#    send_confirmation_email(data)
+#    send_branch_confirmation_email(data)
     return render_template('response.html', form=request.form, people=people)
 
 @app.route('/images/BCMD_Crest.png', methods=['GET'])
