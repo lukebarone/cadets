@@ -185,7 +185,7 @@ def submitted_form():
     keys = [key for key in keys if key.startswith("personnel_name_")]
     for key in keys:
         # Get index
-        index = re.search(r'\d+$', key)
+        index = re.search(r'\d+$', key).group(0)
         people.append(Person(data['personnel_name_' + index],
                               data['personnel_position_' + index],
                               "No",
