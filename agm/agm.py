@@ -192,7 +192,7 @@ def submitted_form():
     #                          data['personnel_position_' + index],
     #                          "No",
     #                          data['personnel_allergy_' + index]))
-        print(key, request.form.get(key))
+        logging.info("%s %s", key, request.form.get(key))
 #        except KeyError:
 #            pass
 #    logging.info("%s - People are: %s and %s", data['uuid'], people[0], people[1])
