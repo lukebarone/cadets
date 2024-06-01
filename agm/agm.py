@@ -191,8 +191,7 @@ def submitted_form():
                 logging.info("%s - %s | %s | %s added", data['uuid'], data['personnel_name_' + index], data['personnel_position_' + index], data['personnel_allergy_' + index])
         except KeyError:
             pass
-    debug_message = [x for x in people]
-    logging.info("%s - People are: %s", data['uuid'], debug_message)
+    logging.info("%s - People are: %s and %s", data['uuid'], people[0], people[1])
     create_file(data)
     add_to_csv_file(data)
     # send_slack_notification(data)
