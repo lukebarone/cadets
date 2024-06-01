@@ -188,6 +188,7 @@ def submitted_form():
                               data['personnel_position_' + index],
                               "No",
                               data['personnel_allergy_' + index]))
+                logging.info("%s - %s | %s | %s added", data['uuid'], data['personnel_name_' + index], data['personnel_position_' + index], data['personnel_allergy_' + index])
         except KeyError:
             pass
     logging.info("%s - People are: %s", data['uuid'], len(people))
