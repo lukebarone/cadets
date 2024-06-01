@@ -184,11 +184,10 @@ def submitted_form():
         index = str(i)
         try:
             if data['personnel_name_' + index].__len__() > 0:
-                extra_person = Person(data['personnel_name_' + index],
-                                  data['personnel_position_' + index],
-                                  "No",
-                                  data['personnel_allergy_' + index])
-                people.append(extra_person)
+                people.append(Person(data['personnel_name_' + index],
+                              data['personnel_position_' + index],
+                              "No",
+                              data['personnel_allergy_' + index]))
         except KeyError:
             pass
     logging.info("%s - People are: %s", data['uuid'], len(people))
