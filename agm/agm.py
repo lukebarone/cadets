@@ -179,7 +179,7 @@ def submitted_form():
     primary_name = Person(data['participant_name'],
                           data['delegate_position'],
                           data['is_delegate'],
-                          data['participant_allergy'])
+                          data['participant_allergy'] if data['participant_allergy'] != "" else "N/A")
     people.append(primary_name)
     keys = request.form.keys()
     keys = [key for key in keys if key.startswith("personnel_name_")]
