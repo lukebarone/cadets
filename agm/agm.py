@@ -5,6 +5,7 @@ import json
 import logging
 import os
 import csv
+import re
 
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -178,24 +179,24 @@ def submitted_form():
     primary_name = Person(data['participant_name'],
                           data['delegate_position'],
                           data['is_delegate'],
-                          data['personnel_allergy'])
+                          data['participant_allergy'])
     people.append(primary_name)
     keys = request.form.keys()
     keys = [key for key in keys if key.startswith("personnel_name_")]
-    keys = sorted(keys)
     for key in keys:
-    #for i in range(100):
-    #    index = str(i)
-    #    try:
-    #        if data['personnel_name_' + index].__len__() > 0:
+        # Get index
+        index = re.search(r'\d+$', key)
+        people.append(Person(data['personnel_name_' + index],
+                              data['personnel_position_' + index],
+                              "No",
+                              data['personnel_allergy_' + index]))
     #    people.append(Person(data['personnel_name_' + index],
     #                          data['personnel_position_' + index],
     #                          "No",
     #                          data['personnel_allergy_' + index]))
         logging.info("%s %s", key, request.form.get(key))
-#        except KeyError:
-#            pass
-#    logging.info("%s - People are: %s and %s", data['uuid'], people[0], people[1])
+    for person in people:
+        logging.info("%s %s %s", person.name, person.position, person.allergies)
     create_file(data)
     add_to_csv_file(data)
     # send_slack_notification(data)
