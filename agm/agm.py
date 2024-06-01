@@ -174,11 +174,12 @@ def submitted_form():
     if None is data:
         return render_template('error.html', error=ERROR_BLANK_FORM)
     # Get branch info
+    people = []
     primary_name = Person(data['participant_name'],
                           data['delegate_position'],
                           data['is_delegate'],
                           data['personnel_allergy'])
-    people = [primary_name]
+    people.append(primary_name)
     for i in range(100):
         index = str(i)
         try:
