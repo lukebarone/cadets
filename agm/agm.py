@@ -190,19 +190,12 @@ def submitted_form():
                               data['personnel_type_' + index],
                               "No",
                               data['personnel_allergy_' + index]))
-    #    people.append(Person(data['personnel_name_' + index],
-    #                          data['personnel_position_' + index],
-    #                          "No",
-    #                          data['personnel_allergy_' + index]))
-        logging.info("%s %s", key, request.form.get(key))
-    for person in people:
-        logging.info("%s %s %s", person.name, person.position, person.allergies)
     create_file(data)
     add_to_csv_file(data)
     # send_slack_notification(data)
-#    send_email_to_agm_group(data)
-#    send_confirmation_email(data)
-#    send_branch_confirmation_email(data)
+    send_email_to_agm_group(data)
+    send_confirmation_email(data)
+    send_branch_confirmation_email(data)
     return render_template('response.html', form=request.form, people=people)
 
 @app.route('/images/BCMD_Crest.png', methods=['GET'])
