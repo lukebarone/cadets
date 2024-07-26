@@ -12,7 +12,7 @@ from slack_sdk.errors import SlackApiError
 from flask import Flask, render_template, request, send_file
 # Add "agm." in front of these imports when developing
 from models.person import Person
-from functions import mail
+from functions import mail, convert_dictionary
 
 
 ERROR_BLANK_FORM = "Blank form detected. Aborting."
@@ -133,7 +133,7 @@ Someone has registered for the BC Mainland Division Annual General Meeting from
 your branch. Please confirm the details below, and email us if this is not an
 authorized action:
 
-{agm.functions.convert_dictionary.convert_for_email(data)}
+{convert_dictionary.convert_for_email(data)}
 
 If you authorized this action, then no other action needs to be taken on your
 behalf. We will assume it's an authorized request unless we hear from you.
