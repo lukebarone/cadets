@@ -126,7 +126,9 @@ def send_branch_confirmation_email(data: dict) -> bool:
     if not value_found in BRANCH_LIST:
         logging.warning("Not found - got %s", data['branch_name'])
         return False
-    message = f"""
+    if convert_dictionary.convert_for_email(data)[1]:
+        logging.info("Branch confirmation email should send - got %s", data['branch_name'])
+        message = f"""
 Hi {data['branch_name']}'s Branch President,
 
 Someone has registered for the BC Mainland Division Annual General Meeting from
@@ -141,11 +143,10 @@ behalf. We will assume it's an authorized request unless we hear from you.
 Sincerely,
 
 An automated bot for your convenience."""
-    mail.send_mail(message,
+        mail.send_mail(message,
                                  f"{data['branch_name']}@bcmainland.ca",
                                  "Branch AGM Registration Info received")
-    return True
-
+        return True
 
 app = Flask(__name__)
 

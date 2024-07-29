@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 
 DATA_KEYS_REQUIRED = ['branch_name', 'participant_name', 'participant_email',
-                      'participant_phone', 'personnel_allergy', 'is_delegate',
+                      'participant_phone', 'is_delegate',
                       'delegate_position', 'uuid', 'submitted_date',
                       'book_hotel', 'share_room', 'amount_payable',
                       'people_count']
@@ -49,7 +49,7 @@ Amount Payable (registrations only - Hotel is extra) - ${data['amount_payable']}
 Total people attending: {data['people_count']}
 """
     return message, True
-        
+
 
 def get_trailing_number(string_to_check: str) -> int:
     """For the input `s`, get the trailing number, or `None` if it can't"""
@@ -58,3 +58,4 @@ def get_trailing_number(string_to_check: str) -> int:
 
 if __name__=='__main__':
     print(valid_keys(luke_data))
+    print(convert_for_email(luke_data)[0])
