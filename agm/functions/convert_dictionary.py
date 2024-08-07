@@ -35,7 +35,7 @@ def convert_for_email(data: dict) -> tuple[str, bool]:
     message = f"""
 Branch Name: {data['branch_name']}
 Participant Name: {data['participant_name']} ({data['participant_email']} / {data['participant_phone']})
-Allergy/dietary restrictions: {data['personnel_allergy']}
+Allergy/dietary restrictions: {data['participant_allergy']}
 Is the participant the voting delegate? {data['is_delegate']} (Position: {data['delegate_position']})
 Should BCMD book the hotel? {data['book_hotel']}
 Are the participant(s) willing to share rooms with other people? {data['share_room']}
