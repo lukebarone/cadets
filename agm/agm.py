@@ -107,8 +107,6 @@ def send_confirmation_email(data: dict) -> bool:
 ---
 {str(data)}
 
-Note: If you asked us to book your hotel room, we will attempt to complete it within 72 hours. If you do not hear from us by then, please reply to this email (it should reply to agm@bcmainland.ca).
-
 Sincerely,
 
 An automated bot for your convenience.

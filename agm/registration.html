@@ -34,6 +34,7 @@
                 '                    <option value="officer">Officer (non-voting member)</option>' +
                 '                    <option value="meals_only">Meals Only</option>' +
                 '                    <option value="awards_dinner_only">Awards Dinner Only</option>' +
+                '                    <option value="area_officer">BCMD Area Officer</option>' +
                 '                </select>' +
                 '            </div>' +
                 '            <div class="col-sm-4">' +
@@ -87,7 +88,8 @@
         function calculate_costs(voting, non_voting, meals_only, awards_only) {
             var running_cost = 0;
             running_cost += voting * 0;
-            running_cost += non_voting * 350;
+            // TODO: Update price after June 30
+            running_cost += non_voting * 300;
             running_cost += meals_only * 250;
             running_cost += awards_only * 100;
             document.getElementById("amount_payable").value = running_cost;
@@ -104,11 +106,15 @@
             var non_voting_count = 0;
             var meals_only = 0;
             var awards_dinner_only = 0;
+            var area_officer_count = 0;
             var inputs = document.querySelectorAll(".extra_type");
             var main_person = document.getElementsByName("delegate_position");
             switch (main_person[0].value) {
                 case "non_voting":
                     non_voting_count++;
+                    break;
+                case "area_officer":
+                    area_officer_count++;
                     break;
                 default:
                     delegate_count++;
@@ -125,10 +131,14 @@
                         break;
                     case "awards_dinner_only":
                         awards_dinner_only++;
+                        break;
+                    case "area_officer":
+                        area_officer_count++;
+                        break;
                 }
             }
-            document.getElementById("people_count").value = delegate_count + non_voting_count + meals_only + awards_dinner_only;
-            document.getElementById("people_count_label").value = delegate_count + non_voting_count + meals_only + awards_dinner_only;
+            document.getElementById("people_count").value = delegate_count + non_voting_count + meals_only + awards_dinner_only + area_officer_count;
+            document.getElementById("people_count_label").value = delegate_count + non_voting_count + meals_only + awards_dinner_only + area_officer_count;
             calculate_costs(delegate_count, non_voting_count, meals_only, awards_dinner_only)
         }
     </script>
@@ -260,6 +270,7 @@
                             <option value="branch_president">Branch President</option>
                             <option value="bcmd_exec">BCMD Executive</option>
                             <option value="branch_proxy">Proxy for Branch President</option>
+                            <option value="area_officer">BCMD Area Officer</option>
                             <option value="non_voting">I am not a voting member or proxy</option>
                         </select>
                     </div>
