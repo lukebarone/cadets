@@ -54,30 +54,17 @@
             </div>
         </div>
         <div class="row">
-            <h2>Booking Info</h2>
-            <div class="col-sm-12">
-                <p>Do you want BCMD to book your rooms?
-                <pre>{{ form.book_hotel }}</pre>
-                </p>
-                {% if form.book_hotel == "Yes" %}
-                <p>Are you OK with sharing a room to save costs?
-                <pre>{{ form.share_room }}</pre>
-                </p>
-                {% endif %}
-            </div>
-        </div>
-        <div class="row">
             <h2>Costs and billings</h2>
             <div class="col-sm-12">
                 {% if form.amount_payable is defined %}
                 <p>Your AGM registration fees come to a total of <strong>${{ form.amount_payable }}</strong>.</p>
-                <p>Early Registration Rates apply on or before September 10th 2024 when the registration form is
+                <p>Regular Registration Rates apply on or before September 10th 2025 when the registration form is
                     completed and the cheque has been received.</p>
                 <p>Please make cheques payable to <strong>Navy League of Canada BC Mainland Division</strong>.
                     Please include your Branch Name and "AGM" in the Memo field.</p>
                 <p>Mail your cheques to:</p>
-                <p>&nbsp;&nbsp;Anthoni Hunt <br />
-                    &nbsp;&nbsp;President - BC Mainland Division <br />
+                <p>&nbsp;&nbsp;Pat Wingfield <br />
+                    &nbsp;&nbsp;Treasurer - BC Mainland Division <br />
                     &nbsp;&nbsp;33157 Turnbridge Ave <br />
                     &nbsp;&nbsp;Mission, BC <br />
                     &nbsp;&nbsp;V2V 6X9</p>
