@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>BCMD OTC Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        var personnel_count = 0;
+        var dinner_count = 0;
+
+        function add_personnel_form_click() {
+            personnel_count++;
+            var add_delegate_form = '<div class="container" id="additional_personnel[' + personnel_count + ']">' +
+                '        <div class="row">' +
+                '            <div class="col">' +
+                '                Additional Candidate ' + personnel_count +
+                '            </div>' +
+                '        </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-1">' +
+                '                <strong>Name</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-3">' +
+                '                <input type="text" id="personnel_name_' + personnel_count + '" name="personnel_name_' + personnel_count + '" class="form-control extra_name" placeholder="Name" required />' +
+                '            </div>' +
+                '            <div class="col-sm-1">' +
+                '                <strong>Position</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-3">' +
+                '                <select id="personnel_type_' + personnel_count + '" name="personnel_type_' + personnel_count + '" class="form-control candidate" required>' +
+                '                    <option value="co">Commanding Officer</option>' +
+                '                    <option value="xo">Executive Officer</option>' +
+                '                    <option value="admino">Administration Officer</option>' +
+                '                    <option value="trgo">Training Officer</option>' +
+                '                    <option value="instructor">Instructor / other</option>' +
+                '                </select>' +
+                '            </div>' +
+                '            <div class="col-sm-2">' +
+                '                <strong>How long in this position?</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-2">' +
+                '                <input type="text" name="personnel_time_in_position_' + personnel_count + '" class="form-control" required placeholder="3 years" />' +
+                '            </div>' +
+                '        </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-1">' +
+                '                <strong>Rank</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-3">' +
+                '                <select id="personnel_rank_' + personnel_count + '" name="personnel_rank_' + personnel_count + '" class="form-control" required>' +
+                '                    <option value="CI">Civilian Instructor</option>' +
+                '                    <option value="mid">Midshipman</option>' +
+                '                    <option value="aslt">Acting Sub Lieutenant</option>' +
+                '                    <option value="slt">Sub Lieutenant</option>' +
+                '                    <option value="lt">Lieutenant</option>' +
+                '                </select>' +
+                '            </div>' +
+                '            <div class="col-sm-1">' +
+                '                <strong>Dietary Restrictions</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-3">' +
+                '                <input type="text" name="personnel_allergy_' + personnel_count + '" class="form-control extra_allergy"' +
+                '                    placeholder="Dietary Restrictions" />' +
+                '            </div>' +
+
+                '            <div class="col-sm-2">' +
+                '                <strong>How many OTCs have you attended?</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-2">' +
+                '                <select id="personnel_years_in_otc_' + personnel_count + '" name="personnel_years_in_otc_' + personnel_count + '" class="form-control" required>' +
+                '                    <option value="0">Never attended</option>' +
+                '                    <option value="1">1</option>' +
+                '                    <option value="2">2</option>' +
+                '                    <option value="3">3</option>' +
+                '                    <option value="4">Finished</option>' +
+                '                </select>' +
+                '            </div>' +
+                '        </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-1">' +
+                '                <strong>Previous Positions held at the corps</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-3">' +
+                '                <input type="checkbox" id="personnel_prev_co_' + personnel_count + '" name="personnel_prev_co_' + personnel_count + '" value="yes" /><label for="personnel_prev_co_' + personnel_count + '">Commanding Officer</label><br />' +
+                '                <input type="checkbox" id="personnel_prev_xo_' + personnel_count + '" name="personnel_prev_xo_' + personnel_count + '" value="yes" /><label for="personnel_prev_xo_' + personnel_count + '">Executive Officer</label><br />' +
+                '                <input type="checkbox" id="personnel_prev_admino_' + personnel_count + '" name="personnel_prev_admino_' + personnel_count + '" value="yes" /><label for="personnel_prev_admino_' + personnel_count + '">Administration Officer</label><br />' +
+                '                <input type="checkbox" id="personnel_prev_trgo_' + personnel_count + '" name="personnel_prev_trgo_' + personnel_count + '" value="yes" /><label for="personnel_prev_trgo_' + personnel_count + '">Training Officer</label><br />' +
+                '                <input type="checkbox" id="personnel_prev_instructor_' + personnel_count + '" name="personnel_prev_instructor_' + personnel_count + '" value="yes" /><label for="personnel_prev_instructor_' + personnel_count + '">Instructor</label>' +
+                '            </div>' +
+                '            <div class="col-sm-2">' +
+                '                <strong>Drill level?</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-2">' +
+                '                <select id="personnel_drill_' + personnel_count + '" name="personnel_drill_' + personnel_count + '" class="form-control" required>' +
+                '                    <option value="0">Never done drill</option>' +
+                '                    <option value="1">Some knowledge</option>' +
+                '                    <option value="2">Well versed</option>' +
+                '                    <option value="3">Could teach it</option>' +
+                '                </select>' +
+                '            </div>' +
+                '            <div class="col-sm-2">' +
+                '                <strong>Gender for sleeping quarters</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-2">' +
+                '                <select id="personnel_gender_' + personnel_count + '" name="personnel_gender_' + personnel_count + '" class="form-control" required>' +
+                '                    <option value="m">Male</option>' +
+                '                    <option value="f">Female</option>' +
+                '                    <option value="x">Other</option>' +
+                '                </select>' +
+                '            </div>' +
+                '        </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-2">' +
+                '                <strong>Any pertinent medical issues we need to be aware of?</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-4">' +
+                '                <input type="text" id="personnel_medical_' + personnel_count + '" name="personnel_medical_' + personnel_count + '" class="form-control" />' +
+                '            </div>' +
+                '        </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-12">' +
+                '                <button type="button" id="remove" value="Remove this participant" class="btn"' +
+                '                    onclick="remove_participant(' + personnel_count + ')">Remove this participant</button>' +
+                '            </div>' +
+
+                '        </div>' +
+                '    </div>';
+            const subject = document.querySelector('#add_new_participant_button');
+            subject.insertAdjacentHTML("beforebegin", add_delegate_form);
+        }
+        function add_dinner_form_click() {
+            dinner_count++;
+            var add_dinner_form = '<div class="container" id="additional_dinner[' + dinner_count + ']">' +
+                '        <div class="row">' +
+                '            <div class="col">' +
+                '                Additional Dinner Guest ' + dinner_count +
+                '            </div>' +
+                '        </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-1">' +
+                '                <strong>Name</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-3">' +
+                '                <input type="text" id="dinner_name_' + dinner_count + '" name="dinner_name_' + dinner_count + '" class="form-control dinner" placeholder="Name" required />' +
+                '            </div>' +
+                '            <div class="col-sm-1">' +
+                '                <strong>Dietary Restrictions</strong>' +
+                '            </div>' +
+                '            <div class="col-sm-3">' +
+                '                <input type="text" name="dinner_allergy_' + dinner_count + '" class="form-control"' +
+                '                    placeholder="Dietary Restrictions" />' +
+                '            </div>' +
+                '        <div class="row">' +
+                '            <div class="col-sm-12">' +
+                '                <button type="button" id="remove" value="Remove this participant" class="btn"' +
+                '                    onclick="remove_dinner(' + dinner_count + ')">Remove this participant</button>' +
+                '            </div>' +
+                '        </div>' +
+                '    </div>';
+            const subject = document.querySelector('#add_new_participant_button');
+            subject.insertAdjacentHTML("beforebegin", add_dinner_form);
+        }
+        function remove_participant(participant) {
+            var elem = document.getElementById("additional_personnel[" + participant + "]");
+            elem.parentNode.removeChild(elem);
+            personnel_count--;
+        }
+        function remove_dinner(participant) {
+            var elem = document.getElementById("additional_dinner[" + participant + "]");
+            elem.parentNode.removeChild(elem);
+            dinner_count--;
+        }
+
+        function uuidv4() {
+            // source: https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+        console.log(uuidv4());
+        function insert_date() {
+            var currentdate = new Date();
+            var datetime = "Submitted: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+            return datetime;
+        }
+        function enter_form_data() {
+            var submitted_date = insert_date();
+            var uuid = uuidv4();
+            document.getElementById("uuid").value = uuid;
+            document.getElementById("submitted_date").value = submitted_date;
+            console.log("UUID - " + uuid);
+            console.log("Date: " + submitted_date);
+        }
+        function calculate_costs(candidates, dinner_only) {
+            var running_cost = 0;
+            running_cost += candidates * 100;
+            running_cost += dinner_only * 60;
+            document.getElementById("amount_payable").value = running_cost;
+            document.getElementById("amount_payable_label").value = running_cost;
+            return running_cost;
+        }
+        function verify_local_inputs() {
+            return true;
+        }
+        // delegate_position - Initial person
+        // personnel_type[] - Additional people
+        function count_types_of_people() {
+            var candidate_count = 0;
+            var dinner_only_count = 0;
+            var candidate_inputs = document.querySelectorAll(".candidate");
+            var dinner_inputs = document.querySelectorAll(".dinner")
+
+            for (var i = 0; i < candidate_inputs.length; i++) {
+                candidate_count++;
+            }
+            for (var i = 0; i < dinner_inputs.length; i++) {
+                dinner_only_count++;
+            }
+            document.getElementById("people_count").value = candidate_count + dinner_only_count;
+            document.getElementById("people_count_label").value = candidate_count + dinner_only_count;
+            calculate_costs(candidate_count, dinner_only_count)
+        }
+    </script>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>BC Mainland Officer Training Course Registration Form</h1>
+            <em>Use this form to let BCMD know who will be attending the Officer Training Course this year.</em>
+            <hr />
+            <p>Note: <strong>EVERYONE WHO INTENDS TO ATTEND MUST BE ENTERED!</strong>
+                You <strong>MUST</strong> fill it out for all your members that are planning to attend.
+            </p>
+            <p>If you run into technical issues filling out the form, please email the <a
+                    href="mailto:tech@bcmainland.ca?subject=BC52">Tech Support Team</a>. For logistical issues or
+                concerns, please email the <a href="mailto:area-officers@bcmainland.ca">Area Officers Team</a>.</p>
+        </div>
+        <form method="POST" class="needs-validation" action="https://jkorpela.fi/cgi-bin/echo.cgi" onsubmit="return verify_local_inputs();">
+        <!-- <form method="POST" class="needs-validation" action="/submit" onsubmit="return verify_local_inputs();"> -->
+            <div class="row">
+                <h2>Corps Information</h2>
+                <div class="col-sm-4">
+                    <label for="corps">Corps Name</label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <select name="corps" required>
+                            <option value="kelowna">3 NLCC Admiral Stirling (Kelowna)</option>
+                            <option value="newwestminster">13 NLCC JF Williams (New Westminster)</option>
+                            <option value="vancouver">15 NLCC Captain Rankin (Vancouver)</option>
+                            <option value="nwvancouver">46 NLCC HC Wallace (North Vancouver)</option>
+                            <option value="vernon">69 NLCC Okanagan (Vernon)</option>
+                            <option value="richmond">78 NLCC MJ Miller (Richmond)</option>
+                            <option value="kamloops">102 NLCC Prince Robert (Kamloops)</option>
+                            <option value="aldergrove">125 NLCC Columbia (Aldergrove)</option>
+                            <option value="princegeorge">142 NLCC Aurora (Prince George)</option>
+                            <option value="surreywhiterock">151 NLCC Cormorant (South Surrey)</option>
+                            <option value="gibsons">204 NLCC Kenneth Grant (Gibsons)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>What is your name (the Commanding Officer)?</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input type="text" name="co_name" class="form-control"
+                            placeholder="Rank, First and Last name" required />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>What is your contact phone number?</strong>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input type="tel" name="co_phone" class="form-control" placeholder="Phone number"
+                            required />
+                        <small class="form-text text-muted">Ensure your phone number is valid. This is how we
+                            will confirm your details, contact you, and provide updates.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- Add more participants -->
+                <div class="form-group row" id="add_new_participant_button">
+                    <div class="col-sm-2">
+                        <button type="button" id="insert" value="Add another participant" class="btn"
+                            onclick="add_personnel_form_click()">Add another candidate</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>NOTE:</strong> all participants must be registered <em>including the Command Officer</em> if they're listed above
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" id="insert" value="Add another dinner guest" class="btn"
+                            onclick="add_dinner_form_click()">Add another dinner guest</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>NOTE:</strong> Dinner-only guests are NOT staying on base, and only participate in the Saturday evening dinner and event. Please ensure they have a safe ride home.
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-row hide">
+                <input type="text" name="uuid" id="uuid" />
+                <input type="text" name="submitted_date" id="submitted_date" />
+            </div>
+            <div class="row">
+                <h2>Final steps...</h2>
+            </div>
+            <!-- Additional Comments -->
+            <div class="row">
+                <div class="form-row">
+                    <div class="col-sm-4">
+                        <strong>Any additional comments you would like to add?</strong>
+                    </div>
+                    <div class="col-sm-8">
+                        <textarea id="additional_comments" placeholder="Additional Comments (optional)"
+                            name="additional_comments" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start of Price Table -->
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h3>Costs:</h3>
+                    </div>
+                    <div class="col-sm-3">
+                        <h3><strong>Candidates: </strong>$100</h3>
+                    </div>
+                    <div class="col-sm-3">
+                        <h3><strong>Dinner Only: </strong>$60</h3>
+                    </div>
+                    <div class="col-sm-3">
+                        <h3>Only BCMD Area Staff is instructing this year</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p>Please make cheques payable to <strong>Navy League of Canada BC Mainland Division</strong>.
+                            Please include your Branch Name and "NLCC OTC 2025" in the Memo field.
+                        </p>
+                        <p>Mail your cheques to:</p>
+                        <p>&nbsp;&nbsp;Pat Wingfield <br />
+                            &nbsp;&nbsp;Treasurer - BC Mainland Division <br />
+                            &nbsp;&nbsp;33157 Turnbridge Ave<br />
+                            &nbsp;&nbsp;Mission, BC <br />
+                            &nbsp;&nbsp;V2V 6X9</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <!-- Total amount payable and Submit button -->
+                    <button type="button" name="calculate" value="Calculate costs" onclick="count_types_of_people()"
+                        class="btn">Calculate Costs</button>
+                </div>
+                <div class="col-sm-5">
+                    <strong>Total amount due: $</strong><input type="text" id="amount_payable_label"
+                        name="amount_payable" class="form-control" readonly />
+                    <input type="hidden" id="amount_payable" />
+                </div>
+                <div class="col-sm-5">
+                    <strong>Total people: </strong><input type="text" id="people_count_label" name="people_count"
+                        class="form-control" readonly />
+                    <input type="hidden" id="people_count" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <input type="submit" value="Submit Registration" class="btn btn-primary"
+                        onclick="enter_form_data()" /> |
+                    <input type="reset" value="Reset Form" class="btn btn-light" />
+                </div>
+
+                <div class="w100"></div>
+            </div>
+
+
+        </form>
+    </div>
+    <footer class="bg-light text-center">
+        <div class="container p4 pb-0">
+            <div class="col-auto">
+                &copy; 2025 by Luke Barone on behalf of BC Mainland Division of the Navy League of Canada
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

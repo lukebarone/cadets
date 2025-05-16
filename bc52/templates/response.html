@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>BCMD OTC Registration Form Response</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>{{ form.submitted_date }}</h1>
+            <small>Report ID: {{ form.uuid }}</small>
+            <em>Please print this off for your confirmation and for billing purposes.</em>
+        </div>
+
+        <div class="row">
+            <h2>Commanding Officer</h2>
+            <div class="col-sm-12">
+                <p>Branch Name: {{ form.corps }}</p>
+                <p>Commanding Officer name and phone number:
+                <pre>{{ form.co_name }} / {{ form.co_phone }}</pre>
+                </p>
+
+            </div>
+        </div>
+        {% if candidates is defined %}
+        <div class="row">
+            <h2>Candidates Attending:</h2>
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Dietary Restrictions</th>
+                    </tr>
+                    {% for person in candidates %}
+                    <tr>
+                        <td>{{ candidates['name'] }}</td>
+                        <td>{{ candidates['type'] }}</td>
+                        <td>{{ candidates['allergy'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+        {% endif %}
+        {% if dinner is defined %}
+        <div class="row">
+            <h2>Dinner Guests Attending:</h2>
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Dietary Restrictions</th>
+                    </tr>
+                    {% for person in dinner %}
+                    <tr>
+                        <td>{{ candidates['name'] }}</td>
+                        <td>{{ candidates['allergy'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="row">
+            <h2>Costs and billings</h2>
+            <div class="col-sm-12">
+                <p>Your OTC registration fees come to a total of <strong>${{ form.amount_payable }}</strong>.</p>
+                <p>Please make cheques payable to <strong>Navy League of Canada BC Mainland Division</strong>.
+                    Please include your Branch Name and "NLCC OTC 2025" in the Memo field.</p>
+                <p>Mail your cheques to:</p>
+                <p>&nbsp;&nbsp;Pat Wingfield <br />
+                    &nbsp;&nbsp;Treasurer - BC Mainland Division <br />
+                    &nbsp;&nbsp;33157 Turnbridge Ave <br />
+                    &nbsp;&nbsp;Mission, BC <br />
+                    &nbsp;&nbsp;V2V 6X9</p>
+            </div>
+        </div>
+        <div class="row">
+            <h2>Additional Comments:</h2>
+            {{ form.additional_comments }}
+        </div>
+    </div>
+
+</body>
+
+</html>
