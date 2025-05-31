@@ -18,7 +18,9 @@ jobs:
         mkdir -p /root/agm_outputs/; \
         cp /var/cadets/bc9_online/bc9_outputs/*.json /root/bc9_outputs/ || echo 'No BC9 outputs found' ; \
         cp /var/cadets/agm/agm_outputs/*.json /root/agm_outputs/ || echo 'No AGM outputs exist' ; \
-        cp /var/cadets/agm/registrations.csv /root/ || echo 'No AGM registration table exists' ;"
+        cp /var/cadets/agm/registrations.csv /root/ || echo 'No AGM registration table exists' ; \
+        cp /var/cadets/bc52/bc52_outputs/*.json /root/bc52_outputs/ || echo 'No BC52 outputs found' ; \
+        cp /var/cadets/bc52/registrations.csv /root/bc52.csv || echo 'No BC52 registration table exists' ;"
     - name: Publish BC9
       run: |
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
@@ -42,6 +44,18 @@ jobs:
         touch /var/cadets/agm/registrations.csv; \
         chown www-data:www-data /var/cadets/agm/agm.log /var/cadets/agm/registrations.csv; \
         cp -f /var/cadets/uwsgi/vassals/agm.ini /etc/uwsgi/vassals/"
+    - name: Publish BC52
+      run: |
+        echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
+        chmod 0600 /tmp/ssh-key
+        ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
+        "python3 -m pip install -r /var/cadets/bc52/requirements.txt; \
+        mkdir -p /var/cadets/bc52/bc52_outputs; \
+        chown -R www-data:www-data /var/cadets/bc52/bc52_outputs/; \
+        touch /var/cadets/bc52/bc52.log; \
+        touch /var/cadets/bc52/registrations.csv; \
+        chown www-data:www-data /var/cadets/bc52/bc52.log /var/cadets/bc52/registrations.csv; \
+        cp -f /var/cadets/uwsgi/vassals/bc52.ini /etc/uwsgi/vassals/"
     - name: Restore registrations
       run: |
         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh-key
@@ -49,11 +63,15 @@ jobs:
         ssh -i /tmp/ssh-key -o StrictHostKeyChecking=no root@server.talk-about-it.ca \
         "mkdir -p /var/cadets/bc9_online/bc9_outputs/; \
         mkdir -p /var/cadets/agm/agm_outputs/; \
+        mkdir -p /var/cadets/bc52/bc52_outputs/; \
         cp /root/bc9_outputs/*.json /var/cadets/bc9_online/bc9_outputs/ || echo 'No BC9 Outputs to restore' ; \
         cp /root/agm_outputs/*.json /var/cadets/agm/agm_outputs/ || echo 'No AGM outputs to restore' ; \
+        cp /root/bc52_outputs/*.json /var/cadets/bc52/bc52_outputs/ || echo 'No BC52 outputs to restore' ; \
         cp /root/registrations.csv /var/cadets/agm/ || echo 'No AGM Registration Table to restore' ; \
+        cp /root/bc52.csv /var/cadets/bc52/ || echo 'No BC52 Registration Table to restore' ; \
         chown -R www-data:www-data /var/cadets/agm/agm_outputs/; \
-        chown -R www-data:www-data /var/cadets/bc9_online/bc9_outputs/;"
+        chown -R www-data:www-data /var/cadets/bc9_online/bc9_outputs/; \
+        chown -R www-data:www-data /var/cadets/bc52/bc52_outputs/"
     - name: Restore environment
       env:
         NOREPLY_APP_PASSWORD: ${{ secrets.NOREPLY_APP_PASSWORD }}
