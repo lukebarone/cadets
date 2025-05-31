@@ -38,6 +38,6 @@ def get_trailing_number(string_to_check: str) -> int:
     matches = re.search(r'\d+$', string_to_check)
     return int(matches.group()) if matches else None
 
-if __name__=='__main__':
+#if __name__=='__main__':
 #    print(valid_keys(luke_data))
 #    print(convert_for_email(luke_data)[0])
