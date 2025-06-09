@@ -157,6 +157,7 @@ def submitted_form():
     candidates = []
     dinner = []
     all_keys = request.form.keys()
+    logging.info("Processing candidates from %s - %s", data['corps'], "".join(list(all_keys)))
     try:
         keys = [key for key in all_keys if key.startswith("personnel_name_")]
         for key in keys:
