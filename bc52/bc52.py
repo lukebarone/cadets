@@ -164,36 +164,36 @@ def submitted_form():
         # Get index
         index = re.search(r'\d+$', key).group(0)
         candidates.append(Candidate(data['personnel_name_' + index],
-                        data['personnel_type_' + index],
-                        data['personnel_time_in_position_' + index],
-                        data['personnel_rank_' + index],
-                        data['personnel_allergy_' + index] if data['personnel_allergy_' + index] != "" else "N/A",
-                        data['personnel_years_in_otc_' + index],
-                        data['personnel_prev_co_' + index] if data['personnel_prev_co_' + index] != "" else "no",
-                        data['personnel_prev_xo_' + index] if data['personnel_prev_xo_' + index] != "" else "no",
-                        data['personnel_prev_admino_' + index] if data['personnel_prev_admino_' + index] != "" else "no",
-                        data['personnel_prev_trgo_' + index] if data['personnel_prev_trgo_' + index] != "" else "no",
-                        data['personnel_prev_instructor_' + index] if data['personnel_prev_instructor_' + index] != "" else "no",
-                        data['personnel_drill_' + index],
-                        data['personnel_gender_' + index],
-                        data['personnel_medical_' + index] if data['personnel_medical_' + index] != "" else "N/A",
-                        ))
+            data['personnel_type_' + index],
+            data['personnel_time_in_position_' + index],
+            data['personnel_rank_' + index],
+            data['personnel_allergy_' + index] if data['personnel_allergy_' + index] != "" else "N/A",
+            data['personnel_years_in_otc_' + index],
+            data['personnel_prev_co_' + index] if data['personnel_prev_co_' + index] != "" else "no",
+            data['personnel_prev_xo_' + index] if data['personnel_prev_xo_' + index] != "" else "no",
+            data['personnel_prev_admino_' + index] if data['personnel_prev_admino_' + index] != "" else "no",
+            data['personnel_prev_trgo_' + index] if data['personnel_prev_trgo_' + index] != "" else "no",
+            data['personnel_prev_instructor_' + index] if data['personnel_prev_instructor_' + index] != "" else "no",
+            data['personnel_drill_' + index],
+            data['personnel_gender_' + index],
+            data['personnel_medical_' + index] if data['personnel_medical_' + index] != "" else "N/A",
+            ))
     # except KeyError:
     #   logging.info("No candidates from %s", data['corps'])
         # pass
-    try:
-        keys = [key for key in all_keys if key.startswith("dinner_name_")]
-        for key in keys:
-            # Get index
-            index = re.search(r'\d+$', key).group(0)
-            dinner.append(Dinner_Guest(data['dinner_name_' + index],
-                                   data['dinner_allergy_' + index] if data['dinner_allergy_' + index] != "" else "N/A"))
-    except KeyError:
-        logging.info("No dinner-only guests from %s", data['corps'])
+    # try:
+    #     keys = [key for key in all_keys if key.startswith("dinner_name_")]
+    #     for key in keys:
+    #         # Get index
+    #         index = re.search(r'\d+$', key).group(0)
+    #         dinner.append(Dinner_Guest(data['dinner_name_' + index],
+    #                                data['dinner_allergy_' + index] if data['dinner_allergy_' + index] != "" else "N/A"))
+    # except KeyError:
+    #     logging.info("No dinner-only guests from %s", data['corps'])
 
     if candidates.count() < 1 and dinner.count() < 1:
         return render_template('error.html', error=ERROR_BLANK_FORM)
-    
+
     create_file(data)
     add_to_csv_file(data)
     send_email_to_area(data)
