@@ -192,6 +192,7 @@ def submitted_form():
     #     logging.info("No dinner-only guests from %s", data['corps'])
 
     if candidates.count() < 1 and dinner.count() < 1:
+        logging.info("No candidates or dinner guests found for %s", data['corps'])
         return render_template('error.html', error=ERROR_BLANK_FORM)
 
     create_file(data)
