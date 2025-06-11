@@ -27,15 +27,17 @@ def convert_for_email(data: dict) -> tuple[str, bool]:
 Branch Name: {data['corps']}
 CO Name: {data['co_name']} ({data['co_phone']})
 """
+    logging.info("%s - Created message (%s)", data.get('corps'), message)
     for names in data.keys():
-        if names.startswith("personnel_name"):
+        if names.startswith("personnel_name_"):
             array_number = get_trailing_number(names)
             message += f"""Candidates: {data['personnel_rank_' + array_number]} {data['personnel_name_' + array_number]} / {data['personnel_type_' + array_number]} / {data['personnel_allergy_' + array_number]}"""
-    message += f"""
-Amount Payable - ${data['amount_payable']}
-Total people attending: {data['people_count']}
-"""
     logging.info("%s - Created message (%s)", data.get('corps'), message)
+    message += f"""
+Amount Payable - ${data.get('amount_payable')}
+Total people attending: {data.get('people_count')}
+"""
+    logging.info("%s - CREATED MESSAGE (%s)", data.get('corps'), message)
     return message, True
 
 
