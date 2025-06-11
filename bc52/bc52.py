@@ -32,7 +32,7 @@ CORPS_EMAIL_LIST = {
     "nwvancouver": "nlcchcwallace@bcmainland.ca",
     "princegeorge": "nlccaurora@bcmainland.ca",
     "richmond": "nlccmjmiller@bcmainland.ca",
-    "surrey": "nlcccormorant@bcmainland.ca",
+    "surreywhiterock": "nlcccormorant@bcmainland.ca",
     "vernon": "nlccokanagan@bcmainland.ca"
 }
 # NO_BRANCH_EMAIL_LIST = ["bcmd", "rcsu", "national"]
@@ -81,7 +81,7 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    mail.send_mail(email_body, email_to, email_subject)
+    #mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - OTC email sent", data['uuid'])
 
 
@@ -97,7 +97,7 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    mail.send_mail(email_body, email_to, email_subject)
+    #mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - Confirmation email sent", data['uuid'])
 
 
@@ -133,9 +133,9 @@ Payment is due by July 31.
 Sincerely,
 
 An automated bot for your convenience."""
-        mail.send_mail(message,
-                                 f"{data['corps']}@bcmainland.ca",
-                                 "Branch OTC Registration Info received")
+        #mail.send_mail(message,
+        #                f"{data['corps']}@bcmainland.ca",
+        #                "Branch OTC Registration Info received")
         return True
 
 app = Flask(__name__)
