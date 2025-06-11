@@ -21,7 +21,7 @@ LOGGING_PATH = "bc52.log"
 LOGGING_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOGGING_LEVEL, filename=LOGGING_PATH)
 BRANCH_LIST = ["aldergrove", "gibsons", "vancouver", "kamloops", "kelowna",
-"newwestminster", "nwvancouver", "princegeorge", "richmond", "surrey", "vernon"]
+"newwestminster", "nwvancouver", "princegeorge", "richmond", "surreywhiterock", "vernon"]
 CORPS_EMAIL_LIST = {
     "aldergrove": "nlcccolumbia@bcmainland.ca",
     "gibsons": "nlcckennethgrant@bcmainland.ca",
