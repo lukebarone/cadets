@@ -181,7 +181,7 @@ def submitted_form():
             data.get('personnel_gender_' + index),
             data.get('personnel_medical_' + index, "N/A"),
             ))
-        logging.info("%s - Added Candidate to array", data.get('corps'))
+        logging.info("%s - Added Candidate %s to array", data.get('corps'), data.get('personnel_name_' + index))
     # except KeyError:
     #   logging.info("No candidates from %s", data['corps'])
         # pass
@@ -200,10 +200,15 @@ def submitted_form():
         return render_template('error.html', error=ERROR_BLANK_FORM)
 
     create_file(data)
+    logging.info("%s - Creating registration file", data.get('corps'))
     add_to_csv_file(data)
+    logging.info("%s - Adding to CSV file", data.get('corps'))
     send_email_to_area(data)
+    logging.info("%s - Email sent to Area Staff", data.get('corps'))
     send_co_confirmation_email(data)
+    logging.info("%s - Email sent to CO", data.get('corps'))
     send_branch_confirmation_email(data)
+    logging.info("%s - Email sent to Branch; returning template", data.get('corps'))
     return render_template('response.html', form=request.form, candidates=candidates, dinner=dinner)
 
 
