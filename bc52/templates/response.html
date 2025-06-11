@@ -41,9 +41,9 @@
                     </tr>
                     {% for person in candidates %}
                     <tr>
-                        <td>{{ candidates['name'] }}</td>
-                        <td>{{ candidates['type'] }}</td>
-                        <td>{{ candidates['allergy'] }}</td>
+                        <td>{{ person['name'] }}</td>
+                        <td>{{ person['type'] }}</td>
+                        <td>{{ person['allergy'] }}</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -62,8 +62,8 @@
                     </tr>
                     {% for person in dinner %}
                     <tr>
-                        <td>{{ candidates['name'] }}</td>
-                        <td>{{ candidates['allergy'] }}</td>
+                        <td>{{ person['name'] }}</td>
+                        <td>{{ person['allergy'] }}</td>
                     </tr>
                     {% endfor %}
                 </table>
