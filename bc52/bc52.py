@@ -181,6 +181,7 @@ def submitted_form():
             data.get('personnel_gender_' + index),
             data.get('personnel_medical_' + index, "N/A"),
             ))
+        logging.info("%s - Added Candidate to array", data.get('corps'))
     # except KeyError:
     #   logging.info("No candidates from %s", data['corps'])
         # pass
