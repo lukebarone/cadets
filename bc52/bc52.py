@@ -160,9 +160,12 @@ def submitted_form():
     logging.info("Processing candidates from %s - %s", data['corps'], " ".join(list(all_keys)))
     #try:
     keys = [key for key in all_keys if key.startswith("personnel_name_")]
+    logging.info("%s - Processed keys", data['corps'])
     for key in keys:
+        logging.info("%s - Entering key loop - %s", data['corps'], key)
         # Get index
         index = re.search(r'\d+$', key).group(0)
+        logging.info("%s - Working on index %s of %s", data['corps'], index, key)
         candidates.append(Candidate(data['personnel_name_' + index],
             data['personnel_type_' + index],
             data['personnel_time_in_position_' + index],
