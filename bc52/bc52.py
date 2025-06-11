@@ -166,20 +166,20 @@ def submitted_form():
         # Get index
         index = re.search(r'\d+$', key).group(0)
         logging.info("%s - Working on index %s of %s", data['corps'], index, key)
-        candidates.append(Candidate(data['personnel_name_' + index],
-            data['personnel_type_' + index],
-            data['personnel_time_in_position_' + index],
-            data['personnel_rank_' + index],
-            data['personnel_allergy_' + index] if data['personnel_allergy_' + index] != "" else "N/A",
-            data['personnel_years_in_otc_' + index],
-            data['personnel_prev_co_' + index] if data['personnel_prev_co_' + index] != "" else "no",
-            data['personnel_prev_xo_' + index] if data['personnel_prev_xo_' + index] != "" else "no",
-            data['personnel_prev_admino_' + index] if data['personnel_prev_admino_' + index] != "" else "no",
-            data['personnel_prev_trgo_' + index] if data['personnel_prev_trgo_' + index] != "" else "no",
-            data['personnel_prev_instructor_' + index] if data['personnel_prev_instructor_' + index] != "" else "no",
-            data['personnel_drill_' + index],
-            data['personnel_gender_' + index],
-            data['personnel_medical_' + index] if data['personnel_medical_' + index] != "" else "N/A",
+        candidates.append(Candidate(data.get('personnel_name_' + index),
+            data.get('personnel_type_' + index),
+            data.get('personnel_time_in_position_' + index),
+            data.get('personnel_rank_' + index),
+            data.get('personnel_allergy_' + index, "N/A"),
+            data.get('personnel_years_in_otc_' + index),
+            data.get('personnel_prev_co_' + index, "no"),
+            data.get('personnel_prev_xo_' + index, "no"),
+            data.get('personnel_prev_admino_' + index, "no"),
+            data.get('personnel_prev_trgo_' + index, "no"),
+            data.get('personnel_prev_instructor_' + index, "no"),
+            data.get('personnel_drill_' + index),
+            data.get('personnel_gender_' + index),
+            data.get('personnel_medical_' + index, "N/A"),
             ))
     # except KeyError:
     #   logging.info("No candidates from %s", data['corps'])
