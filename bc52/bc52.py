@@ -199,6 +199,7 @@ def submitted_form():
         logging.info("No candidates or dinner guests found for %s", data['corps'])
         return render_template('error.html', error=ERROR_BLANK_FORM)
 
+    logging.info("%s - Ready to process and save info", data.get('corps'))
     create_file(data)
     logging.info("%s - Creating registration file", data.get('corps'))
     add_to_csv_file(data)
