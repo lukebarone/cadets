@@ -28,6 +28,7 @@ Branch Name: {data['corps']}
 CO Name: {data['co_name']} ({data['co_phone']})
 """
     logging.info("%s - Created message (%s)", data.get('corps'), message)
+    all_keys = data.keys()
     keys = [key for key in all_keys if key.startswith("personnel_name_")]
     for key in keys:
         index = re.search(r'\d+$', key).group(0)
