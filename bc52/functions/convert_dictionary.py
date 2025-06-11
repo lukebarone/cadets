@@ -28,10 +28,10 @@ Branch Name: {data['corps']}
 CO Name: {data['co_name']} ({data['co_phone']})
 """
     logging.info("%s - Created message (%s)", data.get('corps'), message)
-    for names in data.keys():
-        if names.startswith("personnel_name_"):
-            array_number = get_trailing_number(names)
-            message += f"""Candidates: {data['personnel_rank_' + array_number]} {data['personnel_name_' + array_number]} / {data['personnel_type_' + array_number]} / {data['personnel_allergy_' + array_number]}"""
+    keys = [key for key in all_keys if key.startswith("personnel_name_")]
+    for key in keys:
+        index = re.search(r'\d+$', key).group(0)
+        message += f"""Candidates: {data['personnel_rank_' + index]} {data['personnel_name_' + index]} / {data['personnel_type_' + index]} / {data['personnel_allergy_' + index]}"""
     logging.info("%s - Created message (%s)", data.get('corps'), message)
     message += f"""
 Amount Payable - ${data.get('amount_payable')}
