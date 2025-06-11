@@ -34,6 +34,12 @@ CO Name: {data['co_name']} ({data['co_phone']})
         index = re.search(r'\d+$', key).group(0)
         message += f"""Candidates: {data['personnel_rank_' + index]} {data['personnel_name_' + index]} / {data['personnel_type_' + index]} / {data['personnel_allergy_' + index]}"""
     logging.info("%s - Created message (%s)", data.get('corps'), message)
+    keys = [key for key in all_keys if key.startswith("dinner_name_")]
+    for key in keys:
+        index = re.search(r'\d+$', key).group(0)
+        message += f"""Dinner only guests: {data['dinner_name_' + index]} / {data['dinner_allergy_' + index]}"""
+    logging.info("%s - Created message (%s)", data.get('corps'), message)
+
     message += f"""
 Amount Payable - ${data.get('amount_payable')}
 Total people attending: {data.get('people_count')}
