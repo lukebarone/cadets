@@ -1,5 +1,6 @@
 """Function(s) to convert a raw `data:dict` into a pretty-printed format"""
 from __future__ import annotations
+import logging
 import re
 
 DATA_KEYS_REQUIRED = ['corps', 'co_name',
@@ -8,16 +9,20 @@ DATA_KEYS_REQUIRED = ['corps', 'co_name',
 
 def valid_keys(data: dict) -> bool:
     """Checks that all the required elements exist"""
+    logging.info("%s - Checking for valid keys", data.get('corps'))
     for key_names in DATA_KEYS_REQUIRED:
         if not key_names in data:
             return False
+    logging.info("%s - Returning TRUE for valid_keys", data.get('corps'))
     return True
 
 
 def convert_for_email(data: dict) -> tuple[str, bool]:
     """Returns the formatted message string, and false if it could not convert."""
+    logging.info("%s - Converting data for email; checking if valid keys...", data.get('corps'))
     if not valid_keys(data):
         return "", False
+    logging.info("%s - Generating email message...", data.get('corps'))
     message = f"""
 Branch Name: {data['corps']}
 CO Name: {data['co_name']} ({data['co_phone']})
@@ -30,6 +35,7 @@ CO Name: {data['co_name']} ({data['co_phone']})
 Amount Payable - ${data['amount_payable']}
 Total people attending: {data['people_count']}
 """
+    logging.info("%s - Created message (%s)", data.get('corps'), message)
     return message, True
 
 

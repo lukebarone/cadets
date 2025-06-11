@@ -195,7 +195,7 @@ def submitted_form():
     # except KeyError:
     #     logging.info("No dinner-only guests from %s", data['corps'])
 
-    if len(candidates) < 1: # and dinner.count() < 1:
+    if len(candidates) < 1 and len(dinner) < 1:
         logging.info("No candidates or dinner guests found for %s", data['corps'])
         return render_template('error.html', error=ERROR_BLANK_FORM)
 
