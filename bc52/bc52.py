@@ -81,7 +81,7 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    #mail.send_mail(email_body, email_to, email_subject)
+    mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - OTC email sent", data['uuid'])
 
 
@@ -97,7 +97,7 @@ Sincerely,
 
 An automated bot for your convenience.
     """
-    #mail.send_mail(email_body, email_to, email_subject)
+    mail.send_mail(email_body, email_to, email_subject)
     logging.info("%s - Confirmation email sent", data['uuid'])
 
 
@@ -133,9 +133,9 @@ Payment is due by July 31.
 Sincerely,
 
 An automated bot for your convenience."""
-        #mail.send_mail(message,
-        #                f"{data['corps']}@bcmainland.ca",
-        #                "Branch OTC Registration Info received")
+        mail.send_mail(message,
+                       f"{data['corps']}@bcmainland.ca",
+                       "Branch OTC Registration Info received")
         return True
 
 app = Flask(__name__)
@@ -170,7 +170,7 @@ def submitted_form():
             data.get('personnel_type_' + index),
             data.get('personnel_time_in_position_' + index),
             data.get('personnel_rank_' + index),
-            data.get('personnel_allergy_' + index, "N/A"),
+            data.get('personnel_allergy_' + index, "NKA"),
             data.get('personnel_years_in_otc_' + index),
             data.get('personnel_prev_co_' + index, "no"),
             data.get('personnel_prev_xo_' + index, "no"),
@@ -182,19 +182,14 @@ def submitted_form():
             data.get('personnel_medical_' + index, "N/A"),
             ))
         logging.info("%s - Added Candidate %s to array", data.get('corps'), data.get('personnel_name_' + index))
-    # except KeyError:
-    #   logging.info("No candidates from %s", data['corps'])
-        # pass
-    # try:
-    #     keys = [key for key in all_keys if key.startswith("dinner_name_")]
-    #     for key in keys:
-    #         # Get index
-    #         index = re.search(r'\d+$', key).group(0)
-    #         dinner.append(Dinner_Guest(data['dinner_name_' + index],
-    #                                data['dinner_allergy_' + index] if data['dinner_allergy_' + index] != "" else "N/A"))
-    # except KeyError:
-    #     logging.info("No dinner-only guests from %s", data['corps'])
 
+        keys = [key for key in all_keys if key.startswith("dinner_name_")]
+        for key in keys:
+            # Get index
+            index = re.search(r'\d+$', key).group(0)
+            dinner.append(Dinner_Guest(data.get('dinner_name_' + index),
+                                    data.get('dinner_allergy_' + index, "NKA")))
+    
     if len(candidates) < 1 and len(dinner) < 1:
         logging.info("No candidates or dinner guests found for %s", data['corps'])
         return render_template('error.html', error=ERROR_BLANK_FORM)
