@@ -89,9 +89,9 @@
             var running_cost = 0;
             running_cost += voting * 0;
             // TODO: Update price after June 30
-            running_cost += non_voting * 350;
-            running_cost += meals_only * 250;
-            running_cost += awards_only * 100;
+            running_cost += non_voting * 375;
+            running_cost += meals_only * 275;
+            running_cost += awards_only * 125;
             document.getElementById("amount_payable").value = running_cost;
             document.getElementById("amount_payable_label").value = running_cost;
             return running_cost;
@@ -356,7 +356,7 @@
                         <h3><strike>Early Bird (before June 30)</strike></h3>
                     </div>
                     <div class="col-sm-3">
-                        <h3>Regular (Sept 9, 2025)</h3>
+                        <h3><strike>Regular (Sept 9, 2025)</strike></h3>
                     </div>
                     <div class="col-sm-3">
                         <h3>After Cut Off (Sept 9, 2025)</h3>
@@ -387,7 +387,7 @@
                         <strike>$300</strike>
                     </div>
                     <div class="col-sm-3">
-                        $350
+                        <strike>$350</strike>
                     </div>
                     <div class="col-sm-3">
                         $375
@@ -402,7 +402,7 @@
                         <strike>$250</strike>
                     </div>
                     <div class="col-sm-3">
-                        $250
+                        <strike>$250</strike>
                     </div>
                     <div class="col-sm-3">
                         $275
